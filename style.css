@@ -1,23 +1,24 @@
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #fdfcf5;  /* 부드러운 노트 배경 */
+  background-color: #fdfaf6;
   color: #2f2f2f;
   margin: 0;
   padding: 0;
 }
 
 header {
-  background-color: #cddbe2;  /* 연한 수채화 블루그레이 */
-  color: #333;
-  padding: 25px 10px;
+  background-color: #dbe9f4;
+  color: #2f2f2f;
+  padding: 30px 10px;
   text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 10px rgba(180, 212, 220, 0.4);
+  border-bottom: 2px solid #b4d4dc;
 }
 
 header h1 {
   margin: 0;
-  font-size: 2.2em;
-  letter-spacing: 1px;
+  font-size: 2.4em;
+  font-weight: bold;
 }
 
 nav {
@@ -25,7 +26,7 @@ nav {
 }
 
 nav a {
-  margin: 0 15px;
+  margin: 0 12px;
   text-decoration: none;
   color: #2f2f2f;
   font-weight: bold;
@@ -33,50 +34,47 @@ nav a {
 }
 
 nav a:hover {
-  color: #607d8b;
+  color: #5d92a4;
 }
 
 main {
   max-width: 800px;
-  margin: 40px auto;
+  margin: 50px auto;
   padding: 30px;
-  background-color: #ffffff;
-  border-left: 4px solid #b0c4de;  /* 노트 테두리 느낌 */
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(204, 204, 204, 0.2);
-  line-height: 1.8;
+  background-color: #ffffffee;
+  border-radius: 15px;
+  box-shadow: 0 0 35px rgba(190, 210, 230, 0.3);
+}
+
+.box {
+  background-color: #ffffffcc;
+  border: 2px dashed #b4d4dc;
+  padding: 20px 25px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(210, 225, 235, 0.3);
 }
 
 h2 {
-  color: #5d7079;
-  border-bottom: 1px dashed #b0c4de;
-  padding-bottom: 5px;
+  font-size: 1.6em;
+  color: #355b6c;
+  margin-top: 0;
+  border-bottom: 1px dashed #b4d4dc;
+  padding-bottom: 8px;
 }
 
-ul {
-  list-style: square;
-  padding-left: 20px;
-}
-
-ul li {
-  margin-bottom: 10px;
-}
-
-ul li a {
-  color: #3b3b3b;
-  text-decoration: none;
-}
-
-ul li a:hover {
-  text-decoration: underline;
-  color: #5c9ead;
+p {
+  font-size: 1em;
+  line-height: 1.8;
+  margin: 10px 0;
 }
 
 footer {
   text-align: center;
-  background-color: #e6ecef;
+  background-color: #eaf4f9;
   padding: 15px;
   font-size: 14px;
   color: #555;
   margin-top: 60px;
+  border-top: 1px solid #c0d7e0;
 }
