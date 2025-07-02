@@ -1,95 +1,103 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <title>dldbrud Blog</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #fefdf9;
-      color: #2e2e2e;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #e5eff6;
-      color: #2f2f2f;
-      padding: 40px 20px 20px 20px;
-      text-align: center;
-      border-bottom: 1px solid #cfdfe8;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 2.4em;
-      font-weight: bold;
-    }
-    nav {
-      margin-top: 10px;
-    }
-    nav a {
-      margin: 0 14px;
-      text-decoration: none;
-      color: #2e2e2e;
-      font-weight: bold;
-    }
-    nav a:hover {
-      color: #5d7c8b;
-    }
-    main {
-      max-width: 800px;
-      margin: 50px auto;
-      padding: 0 20px;
-    }
-    .card {
-      background-color: #ffffff;
-      border: 1px solid #d4e1ec;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(180, 200, 220, 0.2);
-      padding: 30px 35px;
-      line-height: 1.8;
-      margin-bottom: 30px;
-    }
-    .card h2 {
-      font-size: 1.6em;
-      margin-top: 0;
-      border-bottom: 1px dashed #b0c8db;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 15px;
-    }
-    input,
-    textarea {
-      padding: 10px;
-      font-size: 1em;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      resize: vertical;
-    }
-    button {
-      padding: 10px;
-      background-color: #a5cfe2;
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background-color: #8bb9d1;
-    }
-    footer {
-      text-align: center;
-      background-color: #e5eff6;
-      padding: 20px;
-      font-size: 14px;
-      color: #555;
-      border-top: 1px solid #cfdfe8;
-      margin-top: 60px;
-    }
+/* style.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #fefdf9;
+  color: #2e2e2e;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #e5eff6;
+  color: #2f2f2f;
+  padding: 40px 20px 20px 20px;
+  text-align: center;
+  border-bottom: 1px solid #cfdfe8;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.4em;
+  font-weight: bold;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  margin: 0 14px;
+  text-decoration: none;
+  color: #2e2e2e;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #5d7c8b;
+}
+
+main {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #d4e1ec;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(180, 200, 220, 0.2);
+  padding: 30px 35px;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.card h2 {
+  font-size: 1.6em;
+  margin-top: 0;
+  border-bottom: 1px dashed #b0c8db;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+input,
+textarea {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+}
+
+button {
+  padding: 10px;
+  background-color: #a5cfe2;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #8bb9d1;
+}
+
+footer {
+  text-align: center;
+  background-color: #e5eff6;
+  padding: 20px;
+  font-size: 14px;
+  color: #555;
+  border-top: 1px solid #cfdfe8;
+  margin-top: 60px;
+}

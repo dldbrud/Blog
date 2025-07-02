@@ -1,4 +1,24 @@
- </style>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>dldbrud Blog</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    function handlePostSubmit(event) {
+      event.preventDefault();
+      const title = document.getElementById("post-title").value;
+      const content = document.getElementById("post-content").value;
+
+      if (!title || !content) {
+        alert("제목과 내용을 모두 입력해주세요!");
+        return;
+      }
+
+      alert(`제목: ${title}\n내용: ${content}`);
+      document.getElementById("post-form").reset();
+    }
+  </script>
 </head>
 <body>
   <header>
@@ -10,6 +30,7 @@
   </header>
 
   <main>
+    <!-- 최근 글 카드 -->
     <div class="card">
       <h2>📁 Recent Post</h2>
       <ul>
@@ -17,9 +38,10 @@
       </ul>
     </div>
 
+    <!-- 글쓰기 카드 (하나만 보이게) -->
     <div class="card">
-      <h2>🖋️ Write New Post</h2>
-      <form onsubmit="addPost(event)">
+      <h2>🎓 Write New Post</h2>
+      <form id="post-form" onsubmit="handlePostSubmit(event)">
         <input type="text" id="post-title" placeholder="제목을 입력하세요" required />
         <textarea id="post-content" rows="5" placeholder="내용을 입력하세요" required></textarea>
         <button type="submit">작성하기</button>
@@ -31,14 +53,5 @@
   <footer>
     <p>&copy; 2025 YuKyeong's Blog</p>
   </footer>
-
-  <script>
-    function addPost(event) {
-      event.preventDefault();
-      const title = document.getElementById("post-title").value;
-      const content = document.getElementById("post-content").value;
-      alert(`[\${title}] \n\n\${content}\n\n(아직 복사 보기만 가능)`);
-    }
-  </script>
 </body>
 </html>
