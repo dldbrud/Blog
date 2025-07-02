@@ -1,18 +1,18 @@
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #fdfaf6;
-  color: #2f2f2f;
+  background-color: #fefdf9;
+  color: #2e2e2e;
   margin: 0;
   padding: 0;
 }
 
+/* 헤더 */
 header {
-  background-color: #dbe9f4;
+  background-color: #e5eff6;
   color: #2f2f2f;
-  padding: 30px 10px;
+  padding: 40px 20px 20px 20px;
   text-align: center;
-  box-shadow: 0 3px 10px rgba(180, 212, 220, 0.4);
-  border-bottom: 2px solid #b4d4dc;
+  border-bottom: 1px solid #cfdfe8;
 }
 
 header h1 {
@@ -26,55 +26,54 @@ nav {
 }
 
 nav a {
-  margin: 0 12px;
+  margin: 0 14px;
   text-decoration: none;
-  color: #2f2f2f;
+  color: #2e2e2e;
   font-weight: bold;
-  transition: color 0.3s;
 }
 
 nav a:hover {
-  color: #5d92a4;
+  color: #5d7c8b;
 }
 
+/* 메인 */
 main {
   max-width: 800px;
   margin: 50px auto;
-  padding: 30px;
-  background-color: #ffffffee;
-  border-radius: 15px;
-  box-shadow: 0 0 35px rgba(190, 210, 230, 0.3);
+  padding: 0 20px;
 }
 
-.box {
-  background-color: #ffffffcc;
-  border: 2px dashed #b4d4dc;
-  padding: 20px 25px;
+/* 카드 스타일 */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #d4e1ec;
   border-radius: 12px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 8px rgba(210, 225, 235, 0.3);
-}
-
-h2 {
-  font-size: 1.6em;
-  color: #355b6c;
-  margin-top: 0;
-  border-bottom: 1px dashed #b4d4dc;
-  padding-bottom: 8px;
-}
-
-p {
-  font-size: 1em;
+  box-shadow: 0 0 10px rgba(180, 200, 220, 0.2);
+  padding: 30px 35px;
   line-height: 1.8;
-  margin: 10px 0;
 }
 
+/* 제목 스타일 */
+.card h2 {
+  font-size: 1.6em;
+  margin-top: 0;
+  border-bottom: 1px dashed #b0c8db;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* 강조 */
+strong {
+  font-weight: bold;
+}
+
+/* 푸터 */
 footer {
   text-align: center;
-  background-color: #eaf4f9;
-  padding: 15px;
+  background-color: #e5eff6;
+  padding: 20px;
   font-size: 14px;
   color: #555;
+  border-top: 1px solid #cfdfe8;
   margin-top: 60px;
-  border-top: 1px solid #c0d7e0;
 }
