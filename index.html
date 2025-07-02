@@ -27,4 +27,81 @@
   </footer>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>YuKyeong's Blog</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>YuKyeong's Blog</h1>
+    <nav>
+      <a href="index.html">Home</a> |
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>🗂️ Recent Post</h2>
+      <ul>
+        <li><a href="mystory.html">My Story</a></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>✍️ Write New Post</h2>
+      <form action="mystory.html" method="get">
+        <input type="text" placeholder="제목을 입력하세요" required />
+        <textarea rows="5" placeholder="내용을 입력하세요" required></textarea>
+        <button type="submit">작성하기</button>
+      </form>
+      <p style="font-size: 0.9em; color: #777;">* 실제 저장 기능은 아직 없어요. 추후 JavaScript로 연결할 수 있어요!</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 YuKyeong's Blog</p>
+  </footer>
+</body>
+</html>
+<main>
+  <h2>📌 최근 글</h2>
+
+  <!-- 글쓰기 폼 -->
+  <section id="write-post">
+    <h3>✍️ 글 작성</h3>
+    <input type="text" id="post-title" placeholder="제목을 입력하세요" />
+    <textarea id="post-content" rows="5" placeholder="내용을 입력하세요"></textarea>
+    <button onclick="addPost()">작성하기</button>
+  </section>
+
+  <!-- 작성된 글이 여기에 추가됨 -->
+  <section id="posts">
+    <h3>📰 내가 쓴 글</h3>
+    <div id="post-list"></div>
+  </section>
+</main>
+<script>
+  function addPost() {
+    const title = document.getElementById("post-title").value;
+    const content = document.getElementById("post-content").value;
+    const postList = document.getElementById("post-list");
+
+    if (title && content) {
+      const post = document.createElement("div");
+      post.className = "post";
+      post.innerHTML = `<h4>${title}</h4><p>${content}</p>`;
+      postList.prepend(post);
+
+      // 입력창 비우기
+      document.getElementById("post-title").value = "";
+      document.getElementById("post-content").value = "";
+    } else {
+      alert("제목과 내용을 모두 입력해주세요!");
+    }
+  }
+</script>
 
