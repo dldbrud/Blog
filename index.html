@@ -5,6 +5,19 @@
   <title>dldbrud Blog</title>
   <link rel="stylesheet" href="style.css" />
   <script>
+    // 글 목록을 LocalStorage에서 불러와서 화면에 표시
+    function loadPosts() {
+      const postList = document.getElementById("post-list");
+      postList.innerHTML = ""; // 기존 목록 초기화
+      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
+      posts.forEach((post, idx) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${post.title}</strong>: ${post.content}`;
+        postList.appendChild(li);
+      });
+    }
+
+    // 글 작성 시 LocalStorage에 저장
     function handlePostSubmit(event) {
       event.preventDefault();
       const title = document.getElementById("post-title").value;
@@ -15,9 +28,22 @@
         return;
       }
 
-      alert(`제목: ${title}\n내용: ${content}`);
+      // 기존 글 목록 불러오기
+      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
+      // 새 글 추가 (최신 글이 위로)
+      posts.unshift({ title, content });
+      // 저장
+      localStorage.setItem("posts", JSON.stringify(posts));
+
+      // 목록 갱신
+      loadPosts();
+
+      // 폼 초기화
       document.getElementById("post-form").reset();
     }
+
+    // 페이지 로드 시 글 목록 불러오기
+    window.onload = loadPosts;
   </script>
 </head>
 <body>
@@ -33,8 +59,8 @@
     <!-- 최근 글 카드 -->
     <div class="card">
       <h2>📁 Recent Post</h2>
-      <ul>
-        <li><a href="mystory.html">My Story</a></li>
+      <ul id="post-list">
+        <!-- 자바스크립트로 동적으로 글 목록을 추가 -->
       </ul>
     </div>
 
