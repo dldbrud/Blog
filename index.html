@@ -28,21 +28,13 @@
         return;
       }
 
-      // 기존 글 목록 불러오기
       const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-      // 새 글 추가 (최신 글이 위로)
       posts.unshift({ title, content });
-      // 저장
       localStorage.setItem("posts", JSON.stringify(posts));
-
-      // 목록 갱신
       loadPosts();
-
-      // 폼 초기화
       document.getElementById("post-form").reset();
     }
 
-    // 페이지 로드 시 글 목록 불러오기
     window.onload = loadPosts;
   </script>
 </head>
@@ -55,16 +47,18 @@
     </nav>
   </header>
 
+  <!-- ✅ 인스타그램 & 이메일 버튼 추가 -->
+  <div class="top-buttons">
+    <a class="btn-link" href="https://instagram.com/dldbrud_3948" target="_blank">📸 Instagram</a>
+    <a class="btn-link" href="mailto:dldbrud3948@gmail.com">📧 Email</a>
+  </div>
+
   <main>
-    <!-- 최근 글 카드 -->
     <div class="card">
       <h2>📁 Recent Post</h2>
-      <ul id="post-list">
-        <!-- 자바스크립트로 동적으로 글 목록을 추가 -->
-      </ul>
+      <ul id="post-list"></ul>
     </div>
 
-    <!-- 글쓰기 카드 (하나만 보이게) -->
     <div class="card">
       <h2>🎓 Write New Post</h2>
       <form id="post-form" onsubmit="handlePostSubmit(event)">
@@ -72,7 +66,7 @@
         <textarea id="post-content" rows="5" placeholder="내용을 입력하세요" required></textarea>
         <button type="submit">작성하기</button>
       </form>
-      <p style="font-size: 0.9em; color: #777;">* 실제 저장 기능은 아직 없어요. 추후 JavaScript로 연결할 수 있어요!</p>
+      <p style="font-size: 0.9em; color: #777;">* 작성한 글은 브라우저에 임시 저장됩니다. (LocalStorage 사용)</p>
     </div>
   </main>
 

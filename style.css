@@ -101,3 +101,23 @@ footer {
   border-top: 1px solid #cfdfe8;
   margin-top: 60px;
 }
+.top-buttons {
+  text-align: center;
+  margin: 20px 0;
+}
+.btn-link {
+  display: inline-block;
+  margin: 5px 10px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background-color: #e6eef9;
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+.btn-link:hover {
+  background-color: #d0e3f2;
+  transform: translateY(-1px);
+}
