@@ -1,5 +1,3 @@
-/* style.css */
-
 body {
   font-family: 'Arial', sans-serif;
   background-color: #fefdf9;
@@ -101,23 +99,26 @@ footer {
   border-top: 1px solid #cfdfe8;
   margin-top: 60px;
 }
+
+/* 소셜 버튼 상단 정렬 */
 .top-buttons {
   text-align: center;
   margin: 20px 0;
 }
-.btn-link {
+
+.btn {
   display: inline-block;
-  margin: 5px 10px;
-  padding: 8px 16px;
-  border-radius: 20px;
-  background-color: #e6eef9;
-  color: #333;
+  padding: 10px 20px;
+  background-color: #d8eefe;
+  border-radius: 10px;
   text-decoration: none;
+  color: #333;
   font-weight: bold;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
-  transition: 0.3s;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
 }
-.btn-link:hover {
-  background-color: #d0e3f2;
-  transform: translateY(-1px);
+
+.btn:hover {
+  background-color: #b3d9f5;
+  transform: scale(1.05);
 }
