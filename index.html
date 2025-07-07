@@ -2,9 +2,51 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>dldbrud Blog</title>
   <link rel="stylesheet" href="style.css" />
+  <script>
+    function loadPosts() {
+      const postList = document.getElementById("post-list");
+      postList.innerHTML = "";
+      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
+      posts.forEach((post, idx) => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = "#";
+        a.textContent = post.title;
+        a.onclick = function() { showPost(idx); return false; };
+        li.appendChild(a);
+        postList.appendChild(li);
+      });
+      document.getElementById("post-detail").innerHTML = "";
+    }
+
+    function showPost(index) {
+      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
+      const post = posts[index];
+      if (post) {
+        document.getElementById("post-detail").innerHTML =
+          `<h3>${post.title}</h3><p>${post.content}</p>`;
+      }
+    }
+
+    function handlePostSubmit(event) {
+      event.preventDefault();
+      const title = document.getElementById("post-title").value;
+      const content = document.getElementById("post-content").value;
+      if (!title || !content) {
+        alert("제목과 내용을 모두 입력해주세요!");
+        return;
+      }
+      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
+      posts.unshift({ title, content });
+      localStorage.setItem("posts", JSON.stringify(posts));
+      loadPosts();
+      document.getElementById("post-form").reset();
+    }
+
+    window.onload = loadPosts;
+  </script>
 </head>
 <body>
   <header>
@@ -16,22 +58,25 @@
   </header>
 
   <main>
-    <section class="post-section">
+    <div class="card">
       <h2>📁 Recent Post</h2>
-      <ul id="postList"></ul>
-    </section>
+      <ul id="post-list"></ul>
+      <div id="post-detail"></div>
+    </div>
 
-    <section class="write-section">
+    <div class="card">
       <h2>🎓 Write New Post</h2>
-      <form id="postForm">
-        <input type="text" id="title" placeholder="제목을 입력하세요" required />
-        <textarea id="content" placeholder="내용을 입력하세요" required></textarea>
+      <form id="post-form" onsubmit="handlePostSubmit(event)">
+        <input type="text" id="post-title" placeholder="제목을 입력하세요" required />
+        <textarea id="post-content" rows="5" placeholder="내용을 입력하세요" required></textarea>
         <button type="submit">작성하기</button>
       </form>
-      <p>* 작성한 글은 브라우저에 임시 저장됩니다. (LocalStorage 사용)</p>
-    </section>
+      <p style="font-size: 0.9em; color: #777;">* 작성한 글은 브라우저에 임시 저장됩니다. (LocalStorage 사용)</p>
+    </div>
   </main>
 
-  <script src="script.js"></script>
+  <footer>
+    <p>&copy; 2025 YuKyeong's Blog</p>
+  </footer>
 </body>
 </html>
