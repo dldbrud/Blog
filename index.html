@@ -53,6 +53,7 @@
           li.appendChild(toggleBtn);
           const delBtn = document.createElement("button");
           delBtn.textContent = "삭제";
+          delBtn.style.marginRight = "6px";
           delBtn.onclick = function(e) {
             e.stopPropagation();
             deletePost(idx);
@@ -61,7 +62,7 @@
         }
         postList.appendChild(li);
       });
-      document.getElementById("post-detail").innerHTML = "";
+      // post-detail 영역 제거
     }
 
     function showPost(index) {
@@ -92,9 +93,7 @@
       const posts = JSON.parse(localStorage.getItem("posts") || "[]");
       const post = posts[index];
       if (post && (!post.private || post.owner === myUserId)) {
-        const win = window.open("", "_blank");
-        win.document.write(`<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8'><title>${post.title}</title><link rel='stylesheet' href='style.css'></head><body><div class='card' style='max-width:600px;margin:40px auto;padding:30px;'><h2>${post.title}</h2><p>${post.content.replace(/\n/g, '<br>')}</p></div></body></html>`);
-        win.document.close();
+        window.open(`post.html?idx=${index}`, "_blank");
       }
     }
 
@@ -147,9 +146,9 @@
 
   <main>
     <div class="card">
-      <h2>📁 My Post</h2>
+      <h2>📁 Recent Post</h2>
       <ul id="post-list"></ul>
-      <div id="post-detail"></div>
+      <!-- post-detail 영역 제거 -->
     </div>
 
     <div class="card">

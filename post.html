@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>글 보기</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { background: #fefef8; }
+  </style>
+</head>
+<body>
+  <div class="card" style="max-width:600px;margin:40px auto;padding:30px;">
+    <h2 id="view-title"></h2>
+    <p id="view-content"></p>
+    <div id="edit-area" style="margin-top:1.5rem;"></div>
+  </div>
+  <script>
+    // 고유 userId 생성 및 저장
+    function getUserId() {
+      let userId = localStorage.getItem('userId');
+      if (!userId) {
+        userId = 'user-' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('userId', userId);
+      }
+      return userId;
+    }
+    const myUserId = getUserId();
+    // 쿼리스트링에서 index 추출
+    function getPostIndex() {
+      const params = new URLSearchParams(window.location.search);
+      return parseInt(params.get('idx'), 10);
+    }
+    const idx = getPostIndex();
+    function renderPost() {
+      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      const post = posts[idx];
+      if (!post) {
+        document.getElementById('view-title').textContent = '글을 찾을 수 없습니다.';
+        document.getElementById('view-content').textContent = '';
+        document.getElementById('edit-area').innerHTML = '';
+        return;
+      }
+      if (post.private && post.owner !== myUserId) {
+        document.getElementById('view-title').textContent = '비공개 글입니다.';
+        document.getElementById('view-content').textContent = '';
+        document.getElementById('edit-area').innerHTML = '';
+        return;
+      }
+      document.getElementById('view-title').textContent = post.title;
+      document.getElementById('view-content').innerHTML = post.content.replace(/\n/g, '<br>');
+      if (post.owner === myUserId) {
+        document.getElementById('edit-area').innerHTML = `
+          <button id='edit-btn' style='padding:0.7rem 1.2rem;border-radius:8px;background:#b0cbe8;color:#fff;font-weight:bold;border:none;margin-top:1rem;'>수정</button>
+          <form id='edit-form' style='display:none;margin-top:1.5rem;'>
+            <input type='text' id='edit-title' value='${post.title.replace(/'/g, "&#39;")}' required style='width:100%;margin-bottom:1rem;padding:0.8rem;border-radius:8px;border:1px solid #ccc;font-size:1rem;'>
+            <textarea id='edit-content' rows='5' required style='width:100%;margin-bottom:1rem;padding:0.8rem;border-radius:8px;border:1px solid #ccc;font-size:1rem;'>${post.content.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</textarea>
+            <button type='submit' style='padding:0.8rem 1.5rem;border-radius:8px;background:#b0cbe8;color:#fff;font-weight:bold;border:none;'>저장</button>
+            <button type='button' id='cancel-edit' style='padding:0.8rem 1.5rem;border-radius:8px;background:#eee;color:#333;font-weight:bold;border:none;margin-left:8px;'>취소</button>
+          </form>
+        `;
+        document.getElementById('edit-btn').onclick = function() {
+          document.getElementById('edit-form').style.display = '';
+          document.getElementById('edit-btn').style.display = 'none';
+          document.getElementById('view-title').style.display = 'none';
+          document.getElementById('view-content').style.display = 'none';
+        };
+        document.getElementById('cancel-edit').onclick = function() {
+          document.getElementById('edit-form').style.display = 'none';
+          document.getElementById('edit-btn').style.display = '';
+          document.getElementById('view-title').style.display = '';
+          document.getElementById('view-content').style.display = '';
+        };
+        document.getElementById('edit-form').onsubmit = function(e) {
+          e.preventDefault();
+          const newTitle = document.getElementById('edit-title').value;
+          const newContent = document.getElementById('edit-content').value;
+          post.title = newTitle;
+          post.content = newContent;
+          posts[idx] = post;
+          localStorage.setItem('posts', JSON.stringify(posts));
+          renderPost();
+          if (window.opener && window.opener.loadPosts) window.opener.loadPosts();
+        };
+      } else {
+        document.getElementById('edit-area').innerHTML = '';
+      }
+    }
+    renderPost();
+  </script>
+</body>
+</html> 
