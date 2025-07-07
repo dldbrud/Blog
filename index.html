@@ -5,40 +5,60 @@
   <title>dldbrud Blog</title>
   <link rel="stylesheet" href="style.css" />
   <script>
+    // 고유 userId 생성 및 저장
+    function getUserId() {
+      let userId = localStorage.getItem('userId');
+      if (!userId) {
+        userId = 'user-' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('userId', userId);
+      }
+      return userId;
+    }
+    const myUserId = getUserId();
+
     function loadPosts() {
       const postList = document.getElementById("post-list");
       postList.innerHTML = "";
       const posts = JSON.parse(localStorage.getItem("posts") || "[]");
       posts.forEach((post, idx) => {
         const li = document.createElement("li");
-        // 제목 링크
-        const a = document.createElement("a");
-        a.href = "#";
-        a.textContent = post.private ? "비공개" : post.title;
-        a.style.marginRight = "10px";
-        a.target = "_blank";
-        a.onclick = function(e) {
-          e.preventDefault();
-          if (!post.private) openPostInNewWindow(idx);
-        };
-        li.appendChild(a);
-        // 비공개/공개 토글 버튼
-        const toggleBtn = document.createElement("button");
-        toggleBtn.textContent = post.private ? "공개" : "비공개";
-        toggleBtn.style.marginRight = "6px";
-        toggleBtn.onclick = function(e) {
-          e.stopPropagation();
-          togglePrivate(idx);
-        };
-        li.appendChild(toggleBtn);
-        // 삭제 버튼
-        const delBtn = document.createElement("button");
-        delBtn.textContent = "삭제";
-        delBtn.onclick = function(e) {
-          e.stopPropagation();
-          deletePost(idx);
-        };
-        li.appendChild(delBtn);
+        // 내가 쓴 글이거나 공개글만 제목 표시
+        if (!post.private || post.owner === myUserId) {
+          const a = document.createElement("a");
+          a.href = "#";
+          a.textContent = post.private ? (post.owner === myUserId ? post.title + " (비공개)" : "비공개") : post.title;
+          a.style.marginRight = "10px";
+          a.target = "_blank";
+          a.onclick = function(e) {
+            e.preventDefault();
+            if (!post.private || post.owner === myUserId) openPostInNewWindow(idx);
+          };
+          li.appendChild(a);
+        } else {
+          // 비공개글, 남이 쓴 글: '비공개'만 표시
+          const span = document.createElement("span");
+          span.textContent = "비공개";
+          span.style.marginRight = "10px";
+          li.appendChild(span);
+        }
+        // 내가 쓴 글만 버튼 표시
+        if (post.owner === myUserId) {
+          const toggleBtn = document.createElement("button");
+          toggleBtn.textContent = post.private ? "공개" : "비공개";
+          toggleBtn.style.marginRight = "6px";
+          toggleBtn.onclick = function(e) {
+            e.stopPropagation();
+            togglePrivate(idx);
+          };
+          li.appendChild(toggleBtn);
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "삭제";
+          delBtn.onclick = function(e) {
+            e.stopPropagation();
+            deletePost(idx);
+          };
+          li.appendChild(delBtn);
+        }
         postList.appendChild(li);
       });
       document.getElementById("post-detail").innerHTML = "";
@@ -62,7 +82,7 @@
         return;
       }
       const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-      posts.unshift({ title, content, private: false });
+      posts.unshift({ title, content, private: false, owner: myUserId });
       localStorage.setItem("posts", JSON.stringify(posts));
       loadPosts();
       document.getElementById("post-form").reset();
@@ -71,7 +91,7 @@
     function openPostInNewWindow(index) {
       const posts = JSON.parse(localStorage.getItem("posts") || "[]");
       const post = posts[index];
-      if (post && !post.private) {
+      if (post && (!post.private || post.owner === myUserId)) {
         const win = window.open("", "_blank");
         win.document.write(`<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8'><title>${post.title}</title><link rel='stylesheet' href='style.css'></head><body><div class='card' style='max-width:600px;margin:40px auto;padding:30px;'><h2>${post.title}</h2><p>${post.content.replace(/\n/g, '<br>')}</p></div></body></html>`);
         win.document.close();
@@ -92,7 +112,28 @@
       loadPosts();
     }
 
-    window.onload = loadPosts;
+    window.onload = function() {
+      loadPosts();
+      // 글 작성 폼 권한 처리
+      const formCard = document.querySelector('.card:nth-of-type(2)');
+      if (formCard) {
+        if (myUserId) {
+          formCard.querySelector('#post-form').style.display = '';
+          const info = formCard.querySelector('.no-write');
+          if (info) info.remove();
+        } else {
+          formCard.querySelector('#post-form').style.display = 'none';
+          if (!formCard.querySelector('.no-write')) {
+            const p = document.createElement('p');
+            p.className = 'no-write';
+            p.style.color = '#888';
+            p.style.marginTop = '1rem';
+            p.textContent = '글 작성 권한이 없습니다.';
+            formCard.appendChild(p);
+          }
+        }
+      }
+    }
   </script>
 </head>
 <body>
@@ -106,7 +147,7 @@
 
   <main>
     <div class="card">
-      <h2>📁 Recent Post</h2>
+      <h2>📁 My Post</h2>
       <ul id="post-list"></ul>
       <div id="post-detail"></div>
     </div>
