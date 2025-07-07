@@ -11,15 +11,34 @@
       const posts = JSON.parse(localStorage.getItem("posts") || "[]");
       posts.forEach((post, idx) => {
         const li = document.createElement("li");
+        // 제목 링크
         const a = document.createElement("a");
         a.href = "#";
-        a.textContent = post.title;
+        a.textContent = post.private ? "비공개" : post.title;
+        a.style.marginRight = "10px";
         a.target = "_blank";
         a.onclick = function(e) {
           e.preventDefault();
-          openPostInNewWindow(idx);
+          if (!post.private) openPostInNewWindow(idx);
         };
         li.appendChild(a);
+        // 비공개/공개 토글 버튼
+        const toggleBtn = document.createElement("button");
+        toggleBtn.textContent = post.private ? "공개" : "비공개";
+        toggleBtn.style.marginRight = "6px";
+        toggleBtn.onclick = function(e) {
+          e.stopPropagation();
+          togglePrivate(idx);
+        };
+        li.appendChild(toggleBtn);
+        // 삭제 버튼
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "삭제";
+        delBtn.onclick = function(e) {
+          e.stopPropagation();
+          deletePost(idx);
+        };
+        li.appendChild(delBtn);
         postList.appendChild(li);
       });
       document.getElementById("post-detail").innerHTML = "";
@@ -43,7 +62,7 @@
         return;
       }
       const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-      posts.unshift({ title, content });
+      posts.unshift({ title, content, private: false });
       localStorage.setItem("posts", JSON.stringify(posts));
       loadPosts();
       document.getElementById("post-form").reset();
@@ -52,11 +71,25 @@
     function openPostInNewWindow(index) {
       const posts = JSON.parse(localStorage.getItem("posts") || "[]");
       const post = posts[index];
-      if (post) {
+      if (post && !post.private) {
         const win = window.open("", "_blank");
         win.document.write(`<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8'><title>${post.title}</title><link rel='stylesheet' href='style.css'></head><body><div class='card' style='max-width:600px;margin:40px auto;padding:30px;'><h2>${post.title}</h2><p>${post.content.replace(/\n/g, '<br>')}</p></div></body></html>`);
         win.document.close();
       }
+    }
+
+    function deletePost(index) {
+      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
+      posts.splice(index, 1);
+      localStorage.setItem("posts", JSON.stringify(posts));
+      loadPosts();
+    }
+
+    function togglePrivate(index) {
+      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
+      posts[index].private = !posts[index].private;
+      localStorage.setItem("posts", JSON.stringify(posts));
+      loadPosts();
     }
 
     window.onload = loadPosts;
