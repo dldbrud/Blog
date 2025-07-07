@@ -2,41 +2,9 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>dldbrud Blog</title>
   <link rel="stylesheet" href="style.css" />
-  <script>
-    // 글 목록을 LocalStorage에서 불러와서 화면에 표시
-    function loadPosts() {
-      const postList = document.getElementById("post-list");
-      postList.innerHTML = ""; // 기존 목록 초기화
-      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-      posts.forEach((post, idx) => {
-        const li = document.createElement("li");
-        li.innerHTML = `<strong>${post.title}</strong>: ${post.content}`;
-        postList.appendChild(li);
-      });
-    }
-
-    // 글 작성 시 LocalStorage에 저장
-    function handlePostSubmit(event) {
-      event.preventDefault();
-      const title = document.getElementById("post-title").value;
-      const content = document.getElementById("post-content").value;
-
-      if (!title || !content) {
-        alert("제목과 내용을 모두 입력해주세요!");
-        return;
-      }
-
-      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-      posts.unshift({ title, content });
-      localStorage.setItem("posts", JSON.stringify(posts));
-      loadPosts();
-      document.getElementById("post-form").reset();
-    }
-
-    window.onload = loadPosts;
-  </script>
 </head>
 <body>
   <header>
@@ -47,31 +15,23 @@
     </nav>
   </header>
 
-  <!-- ✅ 인스타그램 & 이메일 버튼 추가 -->
-  <div class="top-buttons">
-    <a class="btn-link" href="https://instagram.com/dldbrud_3948" target="_blank">📸 Instagram</a>
-    <a class="btn-link" href="mailto:dldbrud3948@gmail.com">📧 Email</a>
-  </div>
-
   <main>
-    <div class="card">
+    <section class="post-section">
       <h2>📁 Recent Post</h2>
-      <ul id="post-list"></ul>
-    </div>
+      <ul id="postList"></ul>
+    </section>
 
-    <div class="card">
+    <section class="write-section">
       <h2>🎓 Write New Post</h2>
-      <form id="post-form" onsubmit="handlePostSubmit(event)">
-        <input type="text" id="post-title" placeholder="제목을 입력하세요" required />
-        <textarea id="post-content" rows="5" placeholder="내용을 입력하세요" required></textarea>
+      <form id="postForm">
+        <input type="text" id="title" placeholder="제목을 입력하세요" required />
+        <textarea id="content" placeholder="내용을 입력하세요" required></textarea>
         <button type="submit">작성하기</button>
       </form>
-      <p style="font-size: 0.9em; color: #777;">* 작성한 글은 브라우저에 임시 저장됩니다. (LocalStorage 사용)</p>
-    </div>
+      <p>* 작성한 글은 브라우저에 임시 저장됩니다. (LocalStorage 사용)</p>
+    </section>
   </main>
 
-  <footer>
-    <p>&copy; 2025 YuKyeong's Blog</p>
-  </footer>
+  <script src="script.js"></script>
 </body>
 </html>
