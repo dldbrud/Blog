@@ -124,6 +124,26 @@
         span.style.color = color;
         range.surroundContents(span);
       };
+      // Bold 적용
+      document.getElementById('bold-btn').onclick = function() {
+        const sel = window.getSelection();
+        if (!sel.rangeCount) return;
+        const range = sel.getRangeAt(0);
+        if (range.collapsed) return;
+        const span = document.createElement('span');
+        span.style.fontWeight = 'bold';
+        range.surroundContents(span);
+      };
+      // Underline 적용
+      document.getElementById('underline-btn').onclick = function() {
+        const sel = window.getSelection();
+        if (!sel.rangeCount) return;
+        const range = sel.getRangeAt(0);
+        if (range.collapsed) return;
+        const span = document.createElement('span');
+        span.style.textDecoration = 'underline';
+        range.surroundContents(span);
+      };
     }
   </script>
 </head>
@@ -148,6 +168,8 @@
           <label style="font-size:0.95em;">글자 색상
             <input type="color" id="inline-font-color" value="#000000" style="width:32px; height:28px; padding:0; border:none; background:none; vertical-align:middle;" />
           </label>
+          <button type="button" id="bold-btn" class="post-btn post-btn-edit" style="padding:4px 10px; font-size:0.95em;" title="굵게"><b>B</b></button>
+          <button type="button" id="underline-btn" class="post-btn post-btn-edit" style="padding:4px 10px; font-size:0.95em; text-decoration:underline;" title="밑줄">U</button>
           <button type="button" id="apply-style-btn" class="post-btn post-btn-edit" style="padding:4px 10px; font-size:0.95em;">적용</button>
         </div>
         <input type="text" id="post-title" placeholder="제목을 입력하세요" required />

@@ -44,24 +44,27 @@
         // 내가 쓴 글만 버튼 표시
         if (post.owner === myUserId) {
           const toggleBtn = document.createElement("button");
-          toggleBtn.textContent = post.private ? "공개" : "비공개";
           toggleBtn.className = "post-btn post-btn-toggle";
+          toggleBtn.title = post.private ? "공개로 전환" : "비공개로 전환";
+          toggleBtn.innerHTML = post.private ? '<span class="btn-icon">🔒</span> 비공개' : '<span class="btn-icon">🔓</span> 공개';
           toggleBtn.onclick = function(e) {
             e.stopPropagation();
             togglePrivate(idx);
           };
           li.appendChild(toggleBtn);
           const delBtn = document.createElement("button");
-          delBtn.textContent = "삭제";
           delBtn.className = "post-btn post-btn-delete";
+          delBtn.title = "삭제";
+          delBtn.innerHTML = '<span class="btn-icon">🗑️</span> 삭제';
           delBtn.onclick = function(e) {
             e.stopPropagation();
             deletePost(idx);
           };
           li.appendChild(delBtn);
           const editBtn = document.createElement("button");
-          editBtn.textContent = "수정";
           editBtn.className = "post-btn post-btn-edit";
+          editBtn.title = "수정";
+          editBtn.innerHTML = '<span class="btn-icon">✏️</span> 수정';
           editBtn.onclick = function(e) {
             e.stopPropagation();
             startEditPost(idx);
@@ -114,7 +117,7 @@
 
   <main>
     <div style="text-align:right; margin-bottom:10px;">
-      <button onclick="window.location.href='Write.html'" class="post-btn post-btn-edit" style="padding:6px 18px; font-size:1em;">글쓰기</button>
+      <button onclick="window.location.href='Write.html'" class="post-btn post-btn-write" title="글쓰기"><span class="btn-icon">✏️</span> 글쓰기</button>
     </div>
     <div class="card">
       <h2>📁 My Post</h2>
