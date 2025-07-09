@@ -16,27 +16,6 @@
     }
     const myUserId = getUserId();
 
-    let editIndex = null; // 수정 중인 글 인덱스
-    
-    function setEditorContent({title = '', content = '', fontSize = '16', align = 'left', image = ''} = {}) {
-      document.getElementById("post-title").value = title;
-      const editor = document.getElementById("post-content-editor");
-      editor.innerHTML = content;
-      editor.style.fontSize = fontSize + 'px';
-      editor.style.textAlign = align;
-      document.getElementById("font-size").value = fontSize;
-      document.getElementById("align-left").classList.toggle('active', align === 'left');
-      document.getElementById("align-center").classList.toggle('active', align === 'center');
-      document.getElementById("align-right").classList.toggle('active', align === 'right');
-      if (image) {
-        document.getElementById("image-preview").src = image;
-        document.getElementById("image-preview").style.display = '';
-      } else {
-        document.getElementById("image-preview").src = '';
-        document.getElementById("image-preview").style.display = 'none';
-      }
-    }
-
     function loadPosts() {
       const postList = document.getElementById("post-list");
       postList.innerHTML = "";
@@ -66,7 +45,7 @@
         if (post.owner === myUserId) {
           const toggleBtn = document.createElement("button");
           toggleBtn.textContent = post.private ? "공개" : "비공개";
-          toggleBtn.style.marginRight = "6px";
+          toggleBtn.className = "post-btn post-btn-toggle";
           toggleBtn.onclick = function(e) {
             e.stopPropagation();
             togglePrivate(idx);
@@ -74,7 +53,7 @@
           li.appendChild(toggleBtn);
           const delBtn = document.createElement("button");
           delBtn.textContent = "삭제";
-          delBtn.style.marginRight = "6px";
+          delBtn.className = "post-btn post-btn-delete";
           delBtn.onclick = function(e) {
             e.stopPropagation();
             deletePost(idx);
@@ -82,7 +61,7 @@
           li.appendChild(delBtn);
           const editBtn = document.createElement("button");
           editBtn.textContent = "수정";
-          editBtn.style.marginRight = "6px";
+          editBtn.className = "post-btn post-btn-edit";
           editBtn.onclick = function(e) {
             e.stopPropagation();
             startEditPost(idx);
@@ -91,42 +70,6 @@
         }
         postList.appendChild(li);
       });
-    }
-
-    function showPost(index) {
-      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-      const post = posts[index];
-      if (post) {
-        document.getElementById("post-detail").innerHTML =
-          `<h3>${post.title}</h3><p>${post.content}</p>`;
-      }
-    }
-
-    function handlePostSubmit(event) {
-      event.preventDefault();
-      const title = document.getElementById("post-title").value;
-      const editor = document.getElementById("post-content-editor");
-      const content = editor.innerHTML;
-      const fontSize = document.getElementById("font-size").value;
-      const align = document.querySelector('.align-btn.active').dataset.align;
-      const image = document.getElementById("image-preview").src || '';
-      if (!title || !content.replace(/<[^>]*>/g, '').trim()) {
-        alert("제목과 내용을 모두 입력해주세요!");
-        return;
-      }
-      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-      const postData = { title, content, fontSize, align, image, private: false, owner: myUserId };
-      if (editIndex !== null) {
-        posts[editIndex] = { ...posts[editIndex], ...postData };
-        editIndex = null;
-        document.getElementById("submit-btn").textContent = "작성하기";
-      } else {
-        posts.unshift(postData);
-      }
-      localStorage.setItem("posts", JSON.stringify(posts));
-      loadPosts();
-      document.getElementById("post-form").reset();
-      setEditorContent();
     }
 
     function openPostInNewWindow(index) {
@@ -152,67 +95,11 @@
     }
 
     function startEditPost(index) {
-      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-      const post = posts[index];
-      if (post && post.owner === myUserId) {
-        setEditorContent(post);
-        editIndex = index;
-        document.getElementById("submit-btn").textContent = "수정 저장";
-      }
-    }
-
-    function handleFontSizeChange() {
-      const size = document.getElementById("font-size").value;
-      document.getElementById("post-content-editor").style.fontSize = size + 'px';
-    }
-    function handleAlignClick(align) {
-      document.getElementById("post-content-editor").style.textAlign = align;
-      document.querySelectorAll('.align-btn').forEach(btn => btn.classList.remove('active'));
-      document.getElementById("align-" + align).classList.add('active');
-    }
-    function handleImageUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        document.getElementById("image-preview").src = ev.target.result;
-        document.getElementById("image-preview").style.display = '';
-      };
-      reader.readAsDataURL(file);
-    }
-    function insertImageToEditor() {
-      const src = document.getElementById("image-preview").src;
-      if (src) {
-        const editor = document.getElementById("post-content-editor");
-        const img = document.createElement('img');
-        img.src = src;
-        img.style.maxWidth = '100%';
-        editor.appendChild(img);
-      }
+      window.location.href = `Write.html?edit=${index}`;
     }
 
     window.onload = function() {
       loadPosts();
-      setEditorContent();
-      // 글 작성 폼 권한 처리
-      const formCard = document.querySelector('.card:nth-of-type(2)');
-      if (formCard) {
-        if (myUserId) {
-          formCard.querySelector('#post-form').style.display = '';
-          const info = formCard.querySelector('.no-write');
-          if (info) info.remove();
-        } else {
-          formCard.querySelector('#post-form').style.display = 'none';
-          if (!formCard.querySelector('.no-write')) {
-            const p = document.createElement('p');
-            p.className = 'no-write';
-            p.style.color = '#888';
-            p.style.marginTop = '1rem';
-            p.textContent = '글 작성 권한이 없습니다.';
-            formCard.appendChild(p);
-          }
-        }
-      }
     }
   </script>
 </head>
@@ -227,35 +114,8 @@
 
   <main>
     <div class="card">
-      <h2>📁 Recent Post</h2>
+      <h2>📁 My Post</h2>
       <ul id="post-list"></ul>
-      <!-- post-detail 영역 제거 -->
-    </div>
-
-    <div class="card">
-      <h2>🎓 Write New Post</h2>
-      <form id="post-form" onsubmit="handlePostSubmit(event)">
-        <input type="text" id="post-title" placeholder="제목을 입력하세요" required />
-        <div style="margin: 0.5em 0; display: flex; align-items: center; gap: 8px;">
-          <label>글자 크기
-            <select id="font-size" onchange="handleFontSizeChange()">
-              <option value="16">보통</option>
-              <option value="20">크게</option>
-              <option value="24">아주 크게</option>
-            </select>
-          </label>
-          <button type="button" class="align-btn active" id="align-left" data-align="left" onclick="handleAlignClick('left')">왼쪽</button>
-          <button type="button" class="align-btn" id="align-center" data-align="center" onclick="handleAlignClick('center')">가운데</button>
-          <button type="button" class="align-btn" id="align-right" data-align="right" onclick="handleAlignClick('right')">오른쪽</button>
-          <input type="file" id="image-upload" accept="image/*" style="display:none" onchange="handleImageUpload(event)" />
-          <button type="button" onclick="document.getElementById('image-upload').click()">사진 첨부</button>
-          <button type="button" onclick="insertImageToEditor()">본문에 사진 넣기</button>
-        </div>
-        <img id="image-preview" src="" style="max-width:100px; display:none; margin-bottom:8px;" />
-        <div id="post-content-editor" contenteditable="true" style="border:1px solid #ccc; min-height:80px; padding:8px; margin-bottom:8px; font-size:16px; text-align:left;"></div>
-        <button type="submit" id="submit-btn">작성하기</button>
-      </form>
-      <p style="font-size: 0.9em; color: #777;">* 작성한 글은 브라우저에 임시 저장됩니다. (LocalStorage 사용)</p>
     </div>
   </main>
 

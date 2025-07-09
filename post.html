@@ -26,12 +26,12 @@
     }
     const myUserId = getUserId();
     // 쿼리스트링에서 index 추출
-    function getPostIndex() {
-      const params = new URLSearchParams(window.location.search);
-      return parseInt(params.get('idx'), 10);
+    function getQueryParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
     }
-    const idx = getPostIndex();
-    function renderPost() {
+    const idx = getQueryParam('idx');
+    function showPost() {
       const posts = JSON.parse(localStorage.getItem('posts') || '[]');
       const post = posts[idx];
       if (!post) {
@@ -78,14 +78,15 @@
           post.content = newContent;
           posts[idx] = post;
           localStorage.setItem('posts', JSON.stringify(posts));
-          renderPost();
+          showPost(); // 수정 후 다시 렌더링
           if (window.opener && window.opener.loadPosts) window.opener.loadPosts();
         };
       } else {
         document.getElementById('edit-area').innerHTML = '';
       }
     }
-    renderPost();
+    window.onload = showPost;
+    window.onfocus = showPost;
   </script>
 </body>
 </html> 
