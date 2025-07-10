@@ -51,35 +51,9 @@
       if (post.owner === myUserId) {
         document.getElementById('edit-area').innerHTML = `
           <button id='edit-btn' style='padding:0.7rem 1.2rem;border-radius:8px;background:#b0cbe8;color:#fff;font-weight:bold;border:none;margin-top:1rem;'>수정</button>
-          <form id='edit-form' style='display:none;margin-top:1.5rem;'>
-            <input type='text' id='edit-title' value='${post.title.replace(/'/g, "&#39;")}' required style='width:100%;margin-bottom:1rem;padding:0.8rem;border-radius:8px;border:1px solid #ccc;font-size:1rem;'>
-            <textarea id='edit-content' rows='5' required style='width:100%;margin-bottom:1rem;padding:0.8rem;border-radius:8px;border:1px solid #ccc;font-size:1rem;'>${post.content.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</textarea>
-            <button type='submit' style='padding:0.8rem 1.5rem;border-radius:8px;background:#b0cbe8;color:#fff;font-weight:bold;border:none;'>저장</button>
-            <button type='button' id='cancel-edit' style='padding:0.8rem 1.5rem;border-radius:8px;background:#eee;color:#333;font-weight:bold;border:none;margin-left:8px;'>취소</button>
-          </form>
         `;
         document.getElementById('edit-btn').onclick = function() {
-          document.getElementById('edit-form').style.display = '';
-          document.getElementById('edit-btn').style.display = 'none';
-          document.getElementById('view-title').style.display = 'none';
-          document.getElementById('view-content').style.display = 'none';
-        };
-        document.getElementById('cancel-edit').onclick = function() {
-          document.getElementById('edit-form').style.display = 'none';
-          document.getElementById('edit-btn').style.display = '';
-          document.getElementById('view-title').style.display = '';
-          document.getElementById('view-content').style.display = '';
-        };
-        document.getElementById('edit-form').onsubmit = function(e) {
-          e.preventDefault();
-          const newTitle = document.getElementById('edit-title').value;
-          const newContent = document.getElementById('edit-content').value;
-          post.title = newTitle;
-          post.content = newContent;
-          posts[idx] = post;
-          localStorage.setItem('posts', JSON.stringify(posts));
-          showPost(); // 수정 후 다시 렌더링
-          if (window.opener && window.opener.loadPosts) window.opener.loadPosts();
+          window.location.href = 'Write.html?edit=' + idx;
         };
       } else {
         document.getElementById('edit-area').innerHTML = '';

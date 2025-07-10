@@ -140,21 +140,21 @@ h2 {
 
 /* 버튼 통일 스타일 */
 .post-btn {
-  font-size: 1.05em;
-  padding: 0.7em 1.5em;
-  margin-right: 8px;
+  font-size: 0.97em;
+  padding: 0.5em 1.1em;
+  margin-right: 6px;
   border: none;
-  border-radius: 20px;
+  border-radius: 18px;
   background: #e3edff;
   color: #1e355d;
   font-weight: 600;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  display: inline-block;
   transition: background 0.18s, color 0.18s, transform 0.18s;
   text-decoration: none;
+  min-width: 56px;
+  min-height: 32px;
 }
 .post-btn .btn-icon {
   font-size: 1.15em;

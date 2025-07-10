@@ -15,7 +15,6 @@
       return userId;
     }
     const myUserId = getUserId();
-    let editIndex = null;
     function setEditorContent({title = '', content = '', fontSize = '16', align = 'left', image = ''} = {}) {
       document.getElementById("post-title").value = title;
       const editor = document.getElementById("post-content-editor");
@@ -80,8 +79,23 @@
       };
       reader.readAsDataURL(file);
     }
+    function getQueryParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+    let editIndex = null;
     window.onload = function() {
-      setEditorContent();
+      // edit 파라미터가 있으면 해당 글 불러오기
+      const editIdx = getQueryParam('edit');
+      if (editIdx !== null) {
+        const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+        const post = posts[editIdx];
+        if (post) setEditorContent(post);
+        editIndex = Number(editIdx);
+        document.getElementById("submit-btn").textContent = "수정 저장";
+      } else {
+        setEditorContent();
+      }
       // 글 작성 폼 권한 처리
       const formCard = document.querySelector('.card');
       if (formCard) {
@@ -103,47 +117,68 @@
       }
       // 글자 크기 옵션 동적 생성
       const fontSizeSelect = document.getElementById('inline-font-size');
-      for(let i=10;i<=50;i++){
-        const opt = document.createElement('option');
-        opt.value = i;
-        opt.textContent = i+'pt';
-        if(i===16) opt.selected = true;
-        fontSizeSelect.appendChild(opt);
+      if (fontSizeSelect && fontSizeSelect.children.length === 0) {
+        for(let i=10;i<=50;i++){
+          const opt = document.createElement('option');
+          opt.value = i;
+          opt.textContent = i;
+          if(i===16) opt.selected = true;
+          fontSizeSelect.appendChild(opt);
+        }
       }
-
-      // 선택 영역에 스타일 적용
-      document.getElementById('apply-style-btn').onclick = function() {
-        const size = document.getElementById('inline-font-size').value;
-        const color = document.getElementById('inline-font-color').value;
-        const sel = window.getSelection();
-        if (!sel.rangeCount) return;
-        const range = sel.getRangeAt(0);
-        if (range.collapsed) return;
-        const span = document.createElement('span');
-        span.style.fontSize = size + 'pt';
-        span.style.color = color;
-        range.surroundContents(span);
-      };
-      // Bold 적용
-      document.getElementById('bold-btn').onclick = function() {
-        const sel = window.getSelection();
-        if (!sel.rangeCount) return;
-        const range = sel.getRangeAt(0);
-        if (range.collapsed) return;
-        const span = document.createElement('span');
-        span.style.fontWeight = 'bold';
-        range.surroundContents(span);
-      };
-      // Underline 적용
-      document.getElementById('underline-btn').onclick = function() {
-        const sel = window.getSelection();
-        if (!sel.rangeCount) return;
-        const range = sel.getRangeAt(0);
-        if (range.collapsed) return;
-        const span = document.createElement('span');
-        span.style.textDecoration = 'underline';
-        range.surroundContents(span);
-      };
+      // 글자 크기 변경 즉시 적용
+      if (fontSizeSelect) {
+        fontSizeSelect.onchange = function() {
+          const size = fontSizeSelect.value;
+          const sel = window.getSelection();
+          if (!sel.rangeCount) return;
+          const range = sel.getRangeAt(0);
+          if (range.collapsed) return;
+          const span = document.createElement('span');
+          span.style.fontSize = size + 'pt';
+          range.surroundContents(span);
+        };
+      }
+      // 글자 색상 변경 즉시 적용
+      const colorInput = document.getElementById('inline-font-color');
+      if (colorInput) {
+        colorInput.oninput = function() {
+          const color = colorInput.value;
+          const sel = window.getSelection();
+          if (!sel.rangeCount) return;
+          const range = sel.getRangeAt(0);
+          if (range.collapsed) return;
+          const span = document.createElement('span');
+          span.style.color = color;
+          range.surroundContents(span);
+        };
+      }
+      // Bold 적용 즉시
+      const boldBtn = document.getElementById('bold-btn');
+      if (boldBtn) {
+        boldBtn.onclick = function() {
+          const sel = window.getSelection();
+          if (!sel.rangeCount) return;
+          const range = sel.getRangeAt(0);
+          if (range.collapsed) return;
+          const span = document.createElement('span');
+          span.style.fontWeight = 'bold';
+          range.surroundContents(span);
+        };
+      }
+      // Underline 적용 즉시
+      const underlineBtn = document.getElementById('underline-btn');
+      if (underlineBtn) {
+        underlineBtn.onclick = function() {
+          const sel = window.getSelection();
+          if (!sel.rangeCount) return;
+          const range = sel.getRangeAt(0);
+          if (range.collapsed) return;
+          const span = document.createElement('span');
+          span.style.textDecoration = 'underline';
+          range.surroundContents(span);
+        };
+      }
     }
   </script>
 </head>
@@ -159,18 +194,13 @@
     <div class="card">
       <h2>🎓 Write New Post</h2>
       <form id="post-form" onsubmit="handlePostSubmit(event)">
-        <div id="editor-toolbar" style="margin-bottom:8px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-          <label style="font-size:0.95em;">글자 크기
-            <select id="inline-font-size" style="width:60px;">
-              <!-- 10~50pt 옵션 -->
-            </select>
-          </label>
-          <label style="font-size:0.95em;">글자 색상
-            <input type="color" id="inline-font-color" value="#000000" style="width:32px; height:28px; padding:0; border:none; background:none; vertical-align:middle;" />
-          </label>
-          <button type="button" id="bold-btn" class="post-btn post-btn-edit" style="padding:4px 10px; font-size:0.95em;" title="굵게"><b>B</b></button>
-          <button type="button" id="underline-btn" class="post-btn post-btn-edit" style="padding:4px 10px; font-size:0.95em; text-decoration:underline;" title="밑줄">U</button>
-          <button type="button" id="apply-style-btn" class="post-btn post-btn-edit" style="padding:4px 10px; font-size:0.95em;">적용</button>
+        <div id="editor-toolbar" style="margin-bottom:8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+          <select id="inline-font-size" class="align-btn" title="글자 크기" style="width:32px; min-width:32px; height:28px; padding:0 2px; font-size:1em; text-align:center;">
+            <!-- 10~50pt 옵션 -->
+          </select>
+          <input type="color" id="inline-font-color" class="align-btn" title="글자 색상" style="width:28px; height:28px; padding:0; border:none; background:none; vertical-align:middle;" />
+          <button type="button" id="bold-btn" class="align-btn" title="굵게(B)" style="font-weight:bold; font-size:1.1em;">B</button>
+          <button type="button" id="underline-btn" class="align-btn" title="밑줄(U)" style="text-decoration:underline; font-size:1.1em;">U</button>
         </div>
         <input type="text" id="post-title" placeholder="제목을 입력하세요" required />
         <div style="margin: 0.5em 0; display: flex; align-items: center; gap: 8px; flex-wrap:wrap;">
