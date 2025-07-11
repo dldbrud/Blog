@@ -91,13 +91,20 @@
       else if (align === 'center') label.textContent = 'Align: Center';
       else if (align === 'right') label.textContent = 'Align: Right';
     }
+    function updateAlignIcon(align) {
+      const icon = document.getElementById('align-icon');
+      if (!icon) return;
+      if (align === 'left') icon.style.background = "url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;";
+      else if (align === 'center') icon.style.background = "url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'3\' y=\'4\' width=\'12\' height=\'2\' fill=\'%23333\'/><rect x=\'5\' y=\'8\' width=\'8\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'12\' width=\'6\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;";
+      else if (align === 'right') icon.style.background = "url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'8\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;";
+    }
     document.addEventListener('DOMContentLoaded', function() {
       const alignBtn = document.getElementById('align-menu-btn');
       const popup = document.getElementById('align-popup');
       if (alignBtn && popup) {
         alignBtn.onclick = function(e) {
           e.stopPropagation();
-          popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+          popup.style.display = (popup.style.display === 'flex') ? 'none' : 'flex';
         };
         document.body.addEventListener('click', function() {
           popup.style.display = 'none';
@@ -106,8 +113,8 @@
           e.stopPropagation();
         });
       }
-      // 초기 정렬 라벨 세팅
-      updateAlignLabel('left');
+      // 초기 정렬 아이콘 세팅
+      updateAlignIcon('left');
     });
     window.onload = function() {
       // edit 파라미터가 있으면 해당 글 불러오기
@@ -216,14 +223,19 @@
           <input type="color" id="inline-font-color" class="toolbar-btn" title="Font Color" style="width:28px; height:28px; padding:0; border:none; background:none; vertical-align:middle; border-radius:5px;" />
           <button type="button" id="bold-btn" class="toolbar-btn" title="Bold (B)" style="font-weight:bold; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">B</button>
           <button type="button" id="underline-btn" class="toolbar-btn" title="Underline (U)" style="text-decoration:underline; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">U</button>
-          <span id="align-label" style="margin-left:8px; font-size:0.98em; font-weight:500; color:#4a7bd8;">Align: Left</span>
-          <button type="button" id="align-menu-btn" class="toolbar-btn" title="Align" style="width:28px; height:28px; border-radius:5px; margin-left:2px;">
-            <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
+          <button type="button" id="align-menu-btn" class="toolbar-btn" title="Align" style="width:28px; height:28px; border-radius:5px; margin-left:2px; display:inline-flex; align-items:center; justify-content:center;">
+            <span id="align-icon" style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
           </button>
-          <div id="align-popup" style="display:none; position:absolute; top:38px; left:180px; background:#fff; border:1px solid #b0cbe8; border-radius:7px; box-shadow:0 2px 8px #b0cbe833; z-index:10; min-width:120px; padding:4px 0;">
-            <button type="button" class="toolbar-btn" onclick="handleAlignClick('left'); hideAlignPopup(); updateAlignLabel('left');" title="Left Align" style="width:32px; height:32px; margin:2px 6px;">Left</button>
-            <button type="button" class="toolbar-btn" onclick="handleAlignClick('center'); hideAlignPopup(); updateAlignLabel('center');" title="Center Align" style="width:32px; height:32px; margin:2px 6px;">Center</button>
-            <button type="button" class="toolbar-btn" onclick="handleAlignClick('right'); hideAlignPopup(); updateAlignLabel('right');" title="Right Align" style="width:32px; height:32px; margin:2px 6px;">Right</button>
+          <div id="align-popup" style="display:none; position:absolute; top:38px; left:120px; background:#fff; border:1px solid #b0cbe8; border-radius:7px; box-shadow:0 2px 8px #b0cbe833; z-index:10; min-width:110px; padding:4px 0; display:flex; gap:4px;">
+            <button type="button" class="toolbar-btn" onclick="handleAlignClick('left'); hideAlignPopup(); updateAlignIcon('left');" title="Left Align" style="width:32px; height:32px; margin:2px 2px; display:inline-flex; align-items:center; justify-content:center;">
+              <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
+            </button>
+            <button type="button" class="toolbar-btn" onclick="handleAlignClick('center'); hideAlignPopup(); updateAlignIcon('center');" title="Center Align" style="width:32px; height:32px; margin:2px 2px; display:inline-flex; align-items:center; justify-content:center;">
+              <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'3\' y=\'4\' width=\'12\' height=\'2\' fill=\'%23333\'/><rect x=\'5\' y=\'8\' width=\'8\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'12\' width=\'6\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
+            </button>
+            <button type="button" class="toolbar-btn" onclick="handleAlignClick('right'); hideAlignPopup(); updateAlignIcon('right');" title="Right Align" style="width:32px; height:32px; margin:2px 2px; display:inline-flex; align-items:center; justify-content:center;">
+              <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'8\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
+            </button>
           </div>
           <input type="file" id="image-upload" accept="image/*" style="display:none" onchange="handleImageUpload(event)" />
           <button type="button" class="img-btn" onclick="document.getElementById('image-upload').click()" title="사진 첨부" style="width:28px;height:28px;padding:0; border-radius:5px;">
