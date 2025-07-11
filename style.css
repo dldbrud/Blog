@@ -235,3 +235,21 @@ h2 {
 #submit-btn:hover {
   background: #bcd0ff;
 }
+
+.toolbar-btn {
+  background: #f3f3f3;
+  border: none;
+  border-radius: 5px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  margin-right: 2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.toolbar-btn:hover, .toolbar-btn:focus {
+  background: #e0e7ff;
+}
