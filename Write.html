@@ -98,18 +98,17 @@
       // No icon update needed, keep the ≡ symbol
     }
     document.addEventListener('DOMContentLoaded', function() {
-      // 글자 크기 옵션 동적 생성
+      // 글자 크기 옵션 동적 생성 (5~50pt)
       const fontSizeSelect = document.getElementById('font-size');
-      if (fontSizeSelect && fontSizeSelect.children.length === 0) {
-        for(let i=10;i<=50;i++){
+      if (fontSizeSelect && fontSizeSelect.children.length <= 1) {
+        for(let i=5;i<=50;i++){
           const opt = document.createElement('option');
           opt.value = i;
-          opt.textContent = i;
-          if(i===16) opt.selected = true;
+          opt.textContent = i + 'pt';
           fontSizeSelect.appendChild(opt);
         }
       }
-      // 글자 크기 변경 즉시 적용
+      // 글자 크기 변경: 선택한 텍스트에만 적용
       if (fontSizeSelect) {
         fontSizeSelect.onchange = function() {
           const size = fontSizeSelect.value;
@@ -203,33 +202,21 @@
       <form id="post-form" onsubmit="handlePostSubmit(event)">
         <input type="text" id="post-title" placeholder="제목을 입력하세요" required style="font-size:1.3em; font-weight:bold; margin-bottom:18px; margin-top:2px; padding:14px 12px; border-radius:10px; border:1.5px solid #b0cbe8; background:#f7fafd;" />
         <div id="editor-toolbar" style="margin-bottom:8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; position:relative;">
+          <!-- 색상 선택 -->
           <input type="color" id="inline-font-color" class="toolbar-btn" title="Font Color" style="width:28px; height:28px; padding:0; border:none; background:none; vertical-align:middle; border-radius:5px;" />
+          <!-- 글자 크기 드롭다운 (5~50pt) -->
+          <select id="font-size" class="toolbar-btn" title="Font Size" style="width:54px; height:28px; border-radius:5px; font-size:0.95em;">
+            <option value="">pt</option>
+            <!-- JS로 5~50까지 옵션 추가 -->
+          </select>
+          <!-- Bold/Underline -->
           <button type="button" id="bold-btn" class="toolbar-btn" title="Bold (B)" style="font-weight:bold; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">B</button>
           <button type="button" id="underline-btn" class="toolbar-btn" title="Underline (U)" style="text-decoration:underline; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">U</button>
-          <button type="button" class="toolbar-btn align-btn" id="align-left" data-align="left" onclick="handleAlignClick('left');" title="Left Align" style="width:38px; height:38px; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; border:2px solid #b0cbe8; background:#f7fafd;">
-            <span style="width:100%; display:flex; align-items:center; justify-content:flex-start; font-size:1.1em; margin-bottom:2px;">🖼️</span>
-            <span style="width:100%; display:flex; flex-direction:column; align-items:flex-start; font-size:0.95em; color:#444;">
-              <span style="width:70%; border-bottom:2px solid #444; margin-bottom:1px;"></span>
-              <span style="width:60%; border-bottom:2px solid #444; margin-bottom:1px;"></span>
-              <span style="width:50%; border-bottom:2px solid #444;"></span>
-            </span>
-          </button>
-          <button type="button" class="toolbar-btn align-btn" id="align-center" data-align="center" onclick="handleAlignClick('center');" title="Center Align" style="width:38px; height:38px; display:flex; flex-direction:column; align-items:center; justify-content:center; border:2px solid #b0cbe8; background:#f7fafd;">
-            <span style="width:100%; display:flex; align-items:center; justify-content:center; font-size:1.1em; margin-bottom:2px;">🖼️</span>
-            <span style="width:100%; display:flex; flex-direction:column; align-items:center; font-size:0.95em; color:#444;">
-              <span style="width:70%; border-bottom:2px solid #444; margin-bottom:1px;"></span>
-              <span style="width:60%; border-bottom:2px solid #444; margin-bottom:1px;"></span>
-              <span style="width:50%; border-bottom:2px solid #444;"></span>
-            </span>
-          </button>
-          <button type="button" class="toolbar-btn align-btn" id="align-right" data-align="right" onclick="handleAlignClick('right');" title="Right Align" style="width:38px; height:38px; display:flex; flex-direction:column; align-items:flex-end; justify-content:center; border:2px solid #b0cbe8; background:#f7fafd;">
-            <span style="width:100%; display:flex; align-items:center; justify-content:flex-end; font-size:1.1em; margin-bottom:2px;">🖼️</span>
-            <span style="width:100%; display:flex; flex-direction:column; align-items:flex-end; font-size:0.95em; color:#444;">
-              <span style="width:70%; border-bottom:2px solid #444; margin-bottom:1px;"></span>
-              <span style="width:60%; border-bottom:2px solid #444; margin-bottom:1px;"></span>
-              <span style="width:50%; border-bottom:2px solid #444;"></span>
-            </span>
-          </button>
+          <!-- 정렬 버튼 3개 (L/C/R) -->
+          <button type="button" class="toolbar-btn align-btn" id="align-left" data-align="left" onclick="handleAlignClick('left');" title="왼쪽 정렬" style="width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center; font-size:1.1em;">L</button>
+          <button type="button" class="toolbar-btn align-btn" id="align-center" data-align="center" onclick="handleAlignClick('center');" title="가운데 정렬" style="width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center; font-size:1.1em;">C</button>
+          <button type="button" class="toolbar-btn align-btn" id="align-right" data-align="right" onclick="handleAlignClick('right');" title="오른쪽 정렬" style="width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center; font-size:1.1em;">R</button>
+          <!-- 이미지 업로드 -->
           <input type="file" id="image-upload" accept="image/*" style="display:none" onchange="handleImageUpload(event)" />
           <button type="button" class="img-btn" onclick="document.getElementById('image-upload').click()" title="Attach Image" style="width:28px;height:28px;padding:0; border-radius:5px; font-size:1.2em;">📷</button>
         </div>
