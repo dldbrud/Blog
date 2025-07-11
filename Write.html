@@ -212,21 +212,21 @@
           <!-- Bold/Underline -->
           <button type="button" id="bold-btn" class="toolbar-btn" title="Bold (B)" style="font-weight:bold; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">B</button>
           <button type="button" id="underline-btn" class="toolbar-btn" title="Underline (U)" style="text-decoration:underline; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">U</button>
-          <!-- 정렬 버튼 3개 (사진처럼 줄 3개, 각 정렬에 맞게) -->
-          <button type="button" class="toolbar-btn align-btn" id="align-left" data-align="left" onclick="handleAlignClick('left');" title="왼쪽 정렬" style="width:32px; height:32px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center; background:#dbeafe; border:1.5px solid #b0cbe8; padding:0;">
-            <span style="display:block; width:20px; height:4px; background:#444; border-radius:2px; margin:2px 0 0 0;"></span>
-            <span style="display:block; width:14px; height:4px; background:#444; border-radius:2px; margin:2px 0 0 0;"></span>
-            <span style="display:block; width:10px; height:4px; background:#444; border-radius:2px; margin:2px 0 0 0;"></span>
+          <!-- 정렬 버튼 3개 (사진처럼 완벽하게) -->
+          <button type="button" class="toolbar-btn align-btn" id="align-left" data-align="left" onclick="handleAlignClick('left');" title="왼쪽 정렬" style="width:36px; height:36px; border-radius:8px; background:#dbeafe; border:1.5px solid #b0cbe8; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:4px;">
+            <span style="display:block; width:18px; height:3px; background:#444; border-radius:2px; margin-bottom:3px;"></span>
+            <span style="display:block; width:13px; height:3px; background:#444; border-radius:2px; margin-bottom:3px;"></span>
+            <span style="display:block; width:8px; height:3px; background:#444; border-radius:2px;"></span>
           </button>
-          <button type="button" class="toolbar-btn align-btn" id="align-center" data-align="center" onclick="handleAlignClick('center');" title="가운데 정렬" style="width:32px; height:32px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center; background:#dbeafe; border:1.5px solid #b0cbe8; padding:0;">
-            <span style="display:block; width:16px; height:4px; background:#444; border-radius:2px; margin:2px auto 0 auto;"></span>
-            <span style="display:block; width:20px; height:4px; background:#444; border-radius:2px; margin:2px auto 0 auto;"></span>
-            <span style="display:block; width:12px; height:4px; background:#444; border-radius:2px; margin:2px auto 0 auto;"></span>
+          <button type="button" class="toolbar-btn align-btn" id="align-center" data-align="center" onclick="handleAlignClick('center');" title="가운데 정렬" style="width:36px; height:36px; border-radius:8px; background:#dbeafe; border:1.5px solid #b0cbe8; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:4px;">
+            <span style="display:block; width:18px; height:3px; background:#444; border-radius:2px; margin-bottom:3px;"></span>
+            <span style="display:block; width:13px; height:3px; background:#444; border-radius:2px; margin-bottom:3px;"></span>
+            <span style="display:block; width:8px; height:3px; background:#444; border-radius:2px;"></span>
           </button>
-          <button type="button" class="toolbar-btn align-btn" id="align-right" data-align="right" onclick="handleAlignClick('right');" title="오른쪽 정렬" style="width:32px; height:32px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center; background:#dbeafe; border:1.5px solid #b0cbe8; padding:0;">
-            <span style="display:block; width:10px; height:4px; background:#444; border-radius:2px; margin:2px 0 0 auto;"></span>
-            <span style="display:block; width:16px; height:4px; background:#444; border-radius:2px; margin:2px 0 0 auto;"></span>
-            <span style="display:block; width:20px; height:4px; background:#444; border-radius:2px; margin:2px 0 0 auto;"></span>
+          <button type="button" class="toolbar-btn align-btn" id="align-right" data-align="right" onclick="handleAlignClick('right');" title="오른쪽 정렬" style="width:36px; height:36px; border-radius:8px; background:#dbeafe; border:1.5px solid #b0cbe8; display:flex; flex-direction:column; justify-content:center; align-items:flex-end; padding:4px;">
+            <span style="display:block; width:18px; height:3px; background:#444; border-radius:2px; margin-bottom:3px;"></span>
+            <span style="display:block; width:13px; height:3px; background:#444; border-radius:2px; margin-bottom:3px;"></span>
+            <span style="display:block; width:8px; height:3px; background:#444; border-radius:2px;"></span>
           </button>
           <!-- 이미지 업로드 -->
           <input type="file" id="image-upload" accept="image/*" style="display:none" onchange="handleImageUpload(event)" />
