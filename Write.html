@@ -92,11 +92,7 @@
       else if (align === 'right') label.textContent = 'Align: Right';
     }
     function updateAlignIcon(align) {
-      const icon = document.getElementById('align-icon');
-      if (!icon) return;
-      if (align === 'left') icon.style.background = "url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;";
-      else if (align === 'center') icon.style.background = "url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'3\' y=\'4\' width=\'12\' height=\'2\' fill=\'%23333\'/><rect x=\'5\' y=\'8\' width=\'8\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'12\' width=\'6\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;";
-      else if (align === 'right') icon.style.background = "url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'8\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;";
+      // No icon update needed, keep the ≡ symbol
     }
     document.addEventListener('DOMContentLoaded', function() {
       const alignBtn = document.getElementById('align-menu-btn');
@@ -223,23 +219,26 @@
           <input type="color" id="inline-font-color" class="toolbar-btn" title="Font Color" style="width:28px; height:28px; padding:0; border:none; background:none; vertical-align:middle; border-radius:5px;" />
           <button type="button" id="bold-btn" class="toolbar-btn" title="Bold (B)" style="font-weight:bold; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">B</button>
           <button type="button" id="underline-btn" class="toolbar-btn" title="Underline (U)" style="text-decoration:underline; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">U</button>
-          <button type="button" id="align-menu-btn" class="toolbar-btn" title="Align" style="width:28px; height:28px; border-radius:5px; margin-left:2px; display:inline-flex; align-items:center; justify-content:center;">
-            <span id="align-icon" style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
-          </button>
+          <button type="button" id="align-menu-btn" class="toolbar-btn" title="Align" style="width:28px; height:28px; border-radius:5px; margin-left:2px; display:inline-flex; align-items:center; justify-content:center;">≡</button>
           <div id="align-popup" style="display:none; position:absolute; top:38px; left:120px; background:#fff; border:1px solid #b0cbe8; border-radius:7px; box-shadow:0 2px 8px #b0cbe833; z-index:10; min-width:110px; padding:4px 0; display:flex; gap:4px;">
-            <button type="button" class="toolbar-btn" onclick="handleAlignClick('left'); hideAlignPopup(); updateAlignIcon('left');" title="Left Align" style="width:32px; height:32px; margin:2px 2px; display:inline-flex; align-items:center; justify-content:center;">
-              <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
+            <button type="button" class="toolbar-btn" onclick="handleAlignClick('left'); hideAlignPopup(); updateAlignIcon('left');" title="Left Align" style="width:38px; height:32px; margin:2px 2px; display:inline-flex; align-items:center; justify-content:flex-start; font-size:1.2em;">
+              <span style="display:block; text-align:left; width:100%; line-height:1.1; font-family:monospace;">
+                ━━━<br>━━━<br>━━━
+              </span>
             </button>
-            <button type="button" class="toolbar-btn" onclick="handleAlignClick('center'); hideAlignPopup(); updateAlignIcon('center');" title="Center Align" style="width:32px; height:32px; margin:2px 2px; display:inline-flex; align-items:center; justify-content:center;">
-              <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'3\' y=\'4\' width=\'12\' height=\'2\' fill=\'%23333\'/><rect x=\'5\' y=\'8\' width=\'8\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'12\' width=\'6\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
+            <button type="button" class="toolbar-btn" onclick="handleAlignClick('center'); hideAlignPopup(); updateAlignIcon('center');" title="Center Align" style="width:38px; height:32px; margin:2px 2px; display:inline-flex; align-items:center; justify-content:center; font-size:1.2em;">
+              <span style="display:block; text-align:center; width:100%; line-height:1.1; font-family:monospace;">
+                ━━━<br>━━━<br>━━━
+              </span>
             </button>
-            <button type="button" class="toolbar-btn" onclick="handleAlignClick('right'); hideAlignPopup(); updateAlignIcon('right');" title="Right Align" style="width:32px; height:32px; margin:2px 2px; display:inline-flex; align-items:center; justify-content:center;">
-              <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'8\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
+            <button type="button" class="toolbar-btn" onclick="handleAlignClick('right'); hideAlignPopup(); updateAlignIcon('right');" title="Right Align" style="width:38px; height:32px; margin:2px 2px; display:inline-flex; align-items:center; justify-content:flex-end; font-size:1.2em;">
+              <span style="display:block; text-align:right; width:100%; line-height:1.1; font-family:monospace;">
+                ━━━<br>━━━<br>━━━
+              </span>
             </button>
           </div>
           <input type="file" id="image-upload" accept="image/*" style="display:none" onchange="handleImageUpload(event)" />
-          <button type="button" class="img-btn" onclick="document.getElementById('image-upload').click()" title="사진 첨부" style="width:28px;height:28px;padding:0; border-radius:5px;">
-          </button>
+          <button type="button" class="img-btn" onclick="document.getElementById('image-upload').click()" title="Attach Image" style="width:28px;height:28px;padding:0; border-radius:5px; font-size:1.2em;">📷</button>
         </div>
         <img id="image-preview" src="" style="max-width:80px; display:none; margin-bottom:6px; border-radius:6px; border:1px solid #eee;" />
         <div id="post-content-editor" contenteditable="true" style="border:1px solid #ccc; min-height:80px; padding:8px; margin-bottom:8px; font-size:16px; text-align:left; border-radius:6px;"></div>
