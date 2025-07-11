@@ -67,6 +67,9 @@
     function handleAlignClick(align) {
       document.getElementById("post-content-editor").style.textAlign = align;
       currentAlign = align;
+      // Highlight the selected button
+      document.querySelectorAll('.align-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('align-' + align).classList.add('active');
     }
     function handleImageUpload(e) {
       const file = e.target.files[0];
@@ -95,46 +98,6 @@
       // No icon update needed, keep the ≡ symbol
     }
     document.addEventListener('DOMContentLoaded', function() {
-      const alignBtn = document.getElementById('align-menu-btn');
-      const popup = document.getElementById('align-popup');
-      if (alignBtn && popup) {
-        alignBtn.onclick = function(e) {
-          e.stopPropagation();
-          popup.style.display = (popup.style.display === 'flex') ? 'none' : 'flex';
-        };
-        document.body.addEventListener('click', function() {
-          popup.style.display = 'none';
-        });
-        popup.addEventListener('click', function(e) {
-          e.stopPropagation();
-        });
-      }
-      // 초기 정렬 아이콘 세팅
-      updateAlignIcon('left');
-    });
-    window.onload = function() {
-      // edit 파라미터가 있으면 해당 글 불러오기
-      const editIdx = getQueryParam('edit');
-      if (editIdx !== null) {
-        const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-        const post = posts[editIdx];
-        if (post) setEditorContent(post);
-        editIndex = Number(editIdx);
-        document.getElementById("submit-btn").textContent = "수정 저장";
-        if (post && post.align) currentAlign = post.align;
-      } else {
-        setEditorContent();
-        editIndex = null;
-        document.getElementById("submit-btn").textContent = "작성하기";
-        currentAlign = 'left';
-      }
-      // 글 작성 폼 권한 처리
-      const formCard = document.querySelector('.card');
-      if (formCard) {
-        formCard.querySelector('#post-form').style.display = '';
-        const info = formCard.querySelector('.no-write');
-        if (info) info.remove();
-      }
       // 글자 크기 옵션 동적 생성
       const fontSizeSelect = document.getElementById('font-size');
       if (fontSizeSelect && fontSizeSelect.children.length === 0) {
@@ -199,6 +162,30 @@
           range.surroundContents(span);
         };
       }
+    });
+    window.onload = function() {
+      // edit 파라미터가 있으면 해당 글 불러오기
+      const editIdx = getQueryParam('edit');
+      if (editIdx !== null) {
+        const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+        const post = posts[editIdx];
+        if (post) setEditorContent(post);
+        editIndex = Number(editIdx);
+        document.getElementById("submit-btn").textContent = "수정 저장";
+        if (post && post.align) currentAlign = post.align;
+      } else {
+        setEditorContent();
+        editIndex = null;
+        document.getElementById("submit-btn").textContent = "작성하기";
+        currentAlign = 'left';
+      }
+      // 글 작성 폼 권한 처리
+      const formCard = document.querySelector('.card');
+      if (formCard) {
+        formCard.querySelector('#post-form').style.display = '';
+        const info = formCard.querySelector('.no-write');
+        if (info) info.remove();
+      }
     }
   </script>
 </head>
@@ -219,24 +206,15 @@
           <input type="color" id="inline-font-color" class="toolbar-btn" title="Font Color" style="width:28px; height:28px; padding:0; border:none; background:none; vertical-align:middle; border-radius:5px;" />
           <button type="button" id="bold-btn" class="toolbar-btn" title="Bold (B)" style="font-weight:bold; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">B</button>
           <button type="button" id="underline-btn" class="toolbar-btn" title="Underline (U)" style="text-decoration:underline; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">U</button>
-          <button type="button" id="align-menu-btn" class="toolbar-btn" title="Align" style="width:28px; height:28px; border-radius:5px; margin-left:2px; display:inline-flex; align-items:center; justify-content:center;">≡</button>
-          <div id="align-popup" style="display:none; position:absolute; top:38px; left:120px; background:#fff; border:1px solid #b0cbe8; border-radius:7px; box-shadow:0 2px 8px #b0cbe833; z-index:10; min-width:110px; padding:4px 0; display:flex; gap:4px;">
-            <button type="button" class="toolbar-btn" onclick="handleAlignClick('left'); hideAlignPopup(); updateAlignIcon('left');" title="Left Align" style="width:38px; height:32px; margin:2px 2px; display:inline-flex; align-items:center; justify-content:flex-start; font-size:1.2em;">
-              <span style="display:block; text-align:left; width:100%; line-height:1.1; font-family:monospace;">
-                ━━━<br>━━━<br>━━━
-              </span>
-            </button>
-            <button type="button" class="toolbar-btn" onclick="handleAlignClick('center'); hideAlignPopup(); updateAlignIcon('center');" title="Center Align" style="width:38px; height:32px; margin:2px 2px; display:inline-flex; align-items:center; justify-content:center; font-size:1.2em;">
-              <span style="display:block; text-align:center; width:100%; line-height:1.1; font-family:monospace;">
-                ━━━<br>━━━<br>━━━
-              </span>
-            </button>
-            <button type="button" class="toolbar-btn" onclick="handleAlignClick('right'); hideAlignPopup(); updateAlignIcon('right');" title="Right Align" style="width:38px; height:32px; margin:2px 2px; display:inline-flex; align-items:center; justify-content:flex-end; font-size:1.2em;">
-              <span style="display:block; text-align:right; width:100%; line-height:1.1; font-family:monospace;">
-                ━━━<br>━━━<br>━━━
-              </span>
-            </button>
-          </div>
+          <button type="button" class="toolbar-btn align-btn" id="align-left" data-align="left" onclick="handleAlignClick('left');" title="Left Align" style="width:38px; height:32px; display:inline-flex; align-items:center; justify-content:flex-start; font-size:1.2em;">
+            <span style="display:block; text-align:left; width:100%; line-height:1.1; font-family:monospace;">━━━<br>━━━<br>━━━</span>
+          </button>
+          <button type="button" class="toolbar-btn align-btn" id="align-center" data-align="center" onclick="handleAlignClick('center');" title="Center Align" style="width:38px; height:32px; display:inline-flex; align-items:center; justify-content:center; font-size:1.2em;">
+            <span style="display:block; text-align:center; width:100%; line-height:1.1; font-family:monospace;">━━━<br>━━━<br>━━━</span>
+          </button>
+          <button type="button" class="toolbar-btn align-btn" id="align-right" data-align="right" onclick="handleAlignClick('right');" title="Right Align" style="width:38px; height:32px; display:inline-flex; align-items:center; justify-content:flex-end; font-size:1.2em;">
+            <span style="display:block; text-align:right; width:100%; line-height:1.1; font-family:monospace;">━━━<br>━━━<br>━━━</span>
+          </button>
           <input type="file" id="image-upload" accept="image/*" style="display:none" onchange="handleImageUpload(event)" />
           <button type="button" class="img-btn" onclick="document.getElementById('image-upload').click()" title="Attach Image" style="width:28px;height:28px;padding:0; border-radius:5px; font-size:1.2em;">📷</button>
         </div>
