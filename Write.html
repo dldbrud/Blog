@@ -106,7 +106,7 @@
         if (info) info.remove();
       }
       // 글자 크기 옵션 동적 생성
-      const fontSizeSelect = document.getElementById('inline-font-size');
+      const fontSizeSelect = document.getElementById('font-size');
       if (fontSizeSelect && fontSizeSelect.children.length === 0) {
         for(let i=10;i<=50;i++){
           const opt = document.createElement('option');
@@ -186,31 +186,25 @@
       <form id="post-form" onsubmit="handlePostSubmit(event)">
         <input type="text" id="post-title" placeholder="제목을 입력하세요" required style="font-size:1.3em; font-weight:bold; margin-bottom:18px; margin-top:2px; padding:14px 12px; border-radius:10px; border:1.5px solid #b0cbe8; background:#f7fafd;" />
         <div id="editor-toolbar" style="margin-bottom:8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-          <select id="inline-font-size" class="align-btn" title="글자 크기" style="width:32px; min-width:32px; height:28px; padding:0 2px; font-size:1em; text-align:center;">
-            <!-- 10~50pt 옵션 -->
-          </select>
-          <input type="color" id="inline-font-color" class="align-btn" title="글자 색상" style="width:28px; height:28px; padding:0; border:none; background:none; vertical-align:middle;" />
-          <button type="button" id="bold-btn" class="align-btn" title="굵게(B)" style="font-weight:bold; font-size:1.1em;">B</button>
-          <button type="button" id="underline-btn" class="align-btn" title="밑줄(U)" style="text-decoration:underline; font-size:1.1em;">U</button>
-        </div>
-        <div style="margin: 0.5em 0; display: flex; align-items: center; gap: 8px; flex-wrap:wrap;">
-          <label style="font-size:0.95em;">글자 크기
-            <select id="font-size" onchange="handleFontSizeChange()" style="width:70px;">
-              <option value="10">10pt</option>
-              <option value="12">12pt</option>
-              <option value="14">14pt</option>
-              <option value="16" selected>16pt</option>
-              <option value="18">18pt</option>
-              <option value="24">24pt</option>
-              <option value="36">36pt</option>
-            </select>
-          </label>
-          <button type="button" class="align-btn active" id="align-left" data-align="left" onclick="handleAlignClick('left')" title="왼쪽 정렬" style="width:28px;height:28px;padding:0;"><span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span></button>
-          <button type="button" class="align-btn" id="align-center" data-align="center" onclick="handleAlignClick('center')" title="가운데 정렬" style="width:28px;height:28px;padding:0;"><span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'3\' y=\'4\' width=\'12\' height=\'2\' fill=\'%23333\'/><rect x=\'5\' y=\'8\' width=\'8\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'12\' width=\'6\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span></button>
-          <button type="button" class="align-btn" id="align-right" data-align="right" onclick="handleAlignClick('right')" title="오른쪽 정렬" style="width:28px;height:28px;padding:0;"><span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'8\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span></button>
+          <input type="color" id="inline-font-color" class="toolbar-btn" title="글자 색상" style="width:28px; height:28px; padding:0; border:none; background:none; vertical-align:middle; border-radius:5px;" />
+          <button type="button" id="bold-btn" class="toolbar-btn" title="굵게(B)" style="font-weight:bold; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">B</button>
+          <button type="button" id="underline-btn" class="toolbar-btn" title="밑줄(U)" style="text-decoration:underline; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">U</button>
+          <button type="button" id="align-menu-btn" class="toolbar-btn" title="정렬" style="width:28px; height:28px; border-radius:5px;">
+            <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
+          </button>
+          <div id="align-popup" style="display:none; position:absolute; top:38px; left:110px; background:#fff; border:1px solid #b0cbe8; border-radius:7px; box-shadow:0 2px 8px #b0cbe833; z-index:10; min-width:90px; padding:4px 0;">
+            <button type="button" class="toolbar-btn" onclick="handleAlignClick('left'); hideAlignPopup();" title="왼쪽 정렬" style="width:32px; height:32px; margin:2px 6px;">
+              <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
+            </button>
+            <button type="button" class="toolbar-btn" onclick="handleAlignClick('center'); hideAlignPopup();" title="가운데 정렬" style="width:32px; height:32px; margin:2px 6px;">
+              <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'3\' y=\'4\' width=\'12\' height=\'2\' fill=\'%23333\'/><rect x=\'5\' y=\'8\' width=\'8\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'12\' width=\'6\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
+            </button>
+            <button type="button" class="toolbar-btn" onclick="handleAlignClick('right'); hideAlignPopup();" title="오른쪽 정렬" style="width:32px; height:32px; margin:2px 6px;">
+              <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'8\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
+            </button>
+          </div>
           <input type="file" id="image-upload" accept="image/*" style="display:none" onchange="handleImageUpload(event)" />
-          <button type="button" class="img-btn" onclick="document.getElementById('image-upload').click()" title="사진 첨부" style="width:28px;height:28px;padding:0;">
-            <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'14\' width=\'14\' height=\'2\' fill=\'%2366a\'/><circle cx=\'7\' cy=\'9\' r=\'2\' fill=\'%2366a\'/><rect x=\'10\' y=\'7\' width=\'4\' height=\'5\' fill=\'%239cf\'/></svg>') no-repeat center;"></span>
+          <button type="button" class="img-btn" onclick="document.getElementById('image-upload').click()" title="사진 첨부" style="width:28px;height:28px;padding:0; border-radius:5px;">
           </button>
         </div>
         <img id="image-preview" src="" style="max-width:80px; display:none; margin-bottom:6px; border-radius:6px; border:1px solid #eee;" />
