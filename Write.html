@@ -121,18 +121,25 @@
           range.surroundContents(span);
         };
       }
-      // 글자 색상 변경 즉시 적용
+      // 색상 팔레트 버튼 이벤트
+      document.querySelectorAll('.color-btn').forEach(btn => {
+        btn.onclick = function() {
+          const color = btn.dataset.color;
+          if (color) {
+            applyColorToSelection(color);
+          }
+        };
+      });
+      // 추가하기 버튼 이벤트
+      const addColorBtn = document.getElementById('add-color-btn');
       const colorInput = document.getElementById('inline-font-color');
-      if (colorInput) {
-        colorInput.oninput = function() {
-          const color = colorInput.value;
-          const sel = window.getSelection();
-          if (!sel.rangeCount) return;
-          const range = sel.getRangeAt(0);
-          if (range.collapsed) return;
-          const span = document.createElement('span');
-          span.style.color = color;
-          range.surroundContents(span);
+      if (addColorBtn && colorInput) {
+        addColorBtn.onclick = function() {
+          colorInput.value = '#000000';
+          colorInput.click();
+        };
+        colorInput.oninput = function(e) {
+          applyColorToSelection(e.target.value);
         };
       }
       // Bold 적용 즉시
@@ -186,6 +193,15 @@
         if (info) info.remove();
       }
     }
+    function applyColorToSelection(color) {
+      const sel = window.getSelection();
+      if (!sel.rangeCount) return;
+      const range = sel.getRangeAt(0);
+      if (range.collapsed) return;
+      const span = document.createElement('span');
+      span.style.color = color;
+      range.surroundContents(span);
+    }
   </script>
 </head>
 <body>
@@ -202,8 +218,23 @@
       <form id="post-form" onsubmit="handlePostSubmit(event)">
         <input type="text" id="post-title" placeholder="제목을 입력하세요" required style="font-size:1.3em; font-weight:bold; margin-bottom:18px; margin-top:2px; padding:14px 12px; border-radius:10px; border:1.5px solid #b0cbe8; background:#f7fafd;" />
         <div id="editor-toolbar" style="margin-bottom:8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; position:relative;">
-          <!-- 색상 선택 -->
-          <input type="color" id="inline-font-color" class="toolbar-btn" title="Font Color" style="width:28px; height:28px; padding:0; border:none; background:none; vertical-align:middle; border-radius:5px;" />
+          <!-- 색상 팔레트 (한컴오피스 스타일) -->
+          <div id="color-palette" style="display:flex; flex-direction:column; gap:2px;">
+            <div style="display:flex; gap:2px;">
+              <button class="color-btn" style="background:#000; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#000" title="검정"></button>
+              <button class="color-btn" style="background:#e74c3c; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#e74c3c" title="빨강"></button>
+              <button class="color-btn" style="background:#2980b9; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#2980b9" title="파랑"></button>
+              <button class="color-btn" style="background:#27ae60; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#27ae60" title="초록"></button>
+              <button class="color-btn" style="background:#f1c40f; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#f1c40f" title="노랑"></button>
+              <button class="color-btn" style="background:#8e44ad; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#8e44ad" title="보라"></button>
+              <button class="color-btn" style="background:#7f8c8d; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#7f8c8d" title="회색"></button>
+              <button class="color-btn" style="background:#fff; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#fff" title="흰색"></button>
+            </div>
+            <div style="display:flex; gap:2px;">
+              <button id="add-color-btn" style="width:100%; height:20px; border-radius:4px; border:1px dashed #bbb; background:#f7fafd; color:#444; font-size:0.95em;" title="색상 추가">+ 추가하기</button>
+              <input type="color" id="inline-font-color" style="display:none;" />
+            </div>
+          </div>
           <!-- 글자 크기 드롭다운 (5~50pt) -->
           <select id="font-size" class="toolbar-btn" title="Font Size" style="width:54px; height:28px; border-radius:5px; font-size:0.95em;">
             <option value="">pt</option>
