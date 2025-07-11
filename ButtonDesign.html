@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Button Design Gallery</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { background: #f7fafd; }
+    .button-demo-row { display: flex; gap: 16px; margin-bottom: 18px; align-items: center; }
+    .button-demo-label { min-width: 120px; font-weight: bold; color: #555; }
+    .demo-section { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px #b0cbe833; padding: 2rem; margin: 2rem auto; max-width: 600px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Button Design Gallery</h1>
+    <nav>
+      <a href="index.html">Home</a>
+    </nav>
+  </header>
+  <main>
+    <div class="demo-section">
+      <div class="button-demo-row">
+        <span class="button-demo-label">Primary Button</span>
+        <button class="post-btn">Primary</button>
+      </div>
+      <div class="button-demo-row">
+        <span class="button-demo-label">Secondary Buttons</span>
+        <button class="post-btn post-btn-edit">Edit</button>
+        <button class="post-btn post-btn-delete">Delete</button>
+        <button class="post-btn post-btn-toggle">Toggle</button>
+      </div>
+      <div class="button-demo-row">
+        <span class="button-demo-label">Toolbar Buttons</span>
+        <button class="toolbar-btn" title="Bold (B)" style="font-weight:bold; font-size:1.1em;">B</button>
+        <button class="toolbar-btn" title="Underline (U)" style="text-decoration:underline; font-size:1.1em;">U</button>
+        <button class="toolbar-btn" title="Align"><span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span></button>
+        <button class="toolbar-btn" title="Attach Image"><span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'14\' width=\'14\' height=\'2\' fill=\'%2366a\'/><circle cx=\'7\' cy=\'9\' r=\'2\' fill=\'%2366a\'/><rect x=\'10\' y=\'7\' width=\'4\' height=\'5\' fill=\'%239cf\'/></svg>') no-repeat center;"></span></button>
+      </div>
+      <div class="button-demo-row">
+        <span class="button-demo-label">Color Input</span>
+        <input type="color" class="toolbar-btn" value="#4a7bd8" />
+      </div>
+    </div>
+  </main>
+</body>
+</html> 

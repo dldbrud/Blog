@@ -39,7 +39,7 @@
       const editor = document.getElementById("post-content-editor");
       const content = editor.innerHTML;
       const fontSize = document.getElementById("font-size").value;
-      const align = document.querySelector('.align-btn.active').dataset.align;
+      const align = currentAlign;
       const image = document.getElementById("image-preview").src || '';
       if (!title || !content.replace(/<[^>]*>/g, '').trim()) {
         alert("제목과 내용을 모두 입력해주세요!");
@@ -66,8 +66,7 @@
     }
     function handleAlignClick(align) {
       document.getElementById("post-content-editor").style.textAlign = align;
-      document.querySelectorAll('.align-btn').forEach(btn => btn.classList.remove('active'));
-      document.getElementById("align-" + align).classList.add('active');
+      currentAlign = align;
     }
     function handleImageUpload(e) {
       const file = e.target.files[0];
@@ -84,6 +83,32 @@
       return url.searchParams.get(name);
     }
     let editIndex = null;
+    let currentAlign = 'left';
+    function updateAlignLabel(align) {
+      const label = document.getElementById('align-label');
+      if (!label) return;
+      if (align === 'left') label.textContent = 'Align: Left';
+      else if (align === 'center') label.textContent = 'Align: Center';
+      else if (align === 'right') label.textContent = 'Align: Right';
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const alignBtn = document.getElementById('align-menu-btn');
+      const popup = document.getElementById('align-popup');
+      if (alignBtn && popup) {
+        alignBtn.onclick = function(e) {
+          e.stopPropagation();
+          popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+        };
+        document.body.addEventListener('click', function() {
+          popup.style.display = 'none';
+        });
+        popup.addEventListener('click', function(e) {
+          e.stopPropagation();
+        });
+      }
+      // 초기 정렬 라벨 세팅
+      updateAlignLabel('left');
+    });
     window.onload = function() {
       // edit 파라미터가 있으면 해당 글 불러오기
       const editIdx = getQueryParam('edit');
@@ -93,10 +118,12 @@
         if (post) setEditorContent(post);
         editIndex = Number(editIdx);
         document.getElementById("submit-btn").textContent = "수정 저장";
+        if (post && post.align) currentAlign = post.align;
       } else {
         setEditorContent();
         editIndex = null;
         document.getElementById("submit-btn").textContent = "작성하기";
+        currentAlign = 'left';
       }
       // 글 작성 폼 권한 처리
       const formCard = document.querySelector('.card');
@@ -185,23 +212,18 @@
       <h2>🎓 Write New Post</h2>
       <form id="post-form" onsubmit="handlePostSubmit(event)">
         <input type="text" id="post-title" placeholder="제목을 입력하세요" required style="font-size:1.3em; font-weight:bold; margin-bottom:18px; margin-top:2px; padding:14px 12px; border-radius:10px; border:1.5px solid #b0cbe8; background:#f7fafd;" />
-        <div id="editor-toolbar" style="margin-bottom:8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-          <input type="color" id="inline-font-color" class="toolbar-btn" title="글자 색상" style="width:28px; height:28px; padding:0; border:none; background:none; vertical-align:middle; border-radius:5px;" />
-          <button type="button" id="bold-btn" class="toolbar-btn" title="굵게(B)" style="font-weight:bold; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">B</button>
-          <button type="button" id="underline-btn" class="toolbar-btn" title="밑줄(U)" style="text-decoration:underline; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">U</button>
-          <button type="button" id="align-menu-btn" class="toolbar-btn" title="정렬" style="width:28px; height:28px; border-radius:5px;">
+        <div id="editor-toolbar" style="margin-bottom:8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; position:relative;">
+          <input type="color" id="inline-font-color" class="toolbar-btn" title="Font Color" style="width:28px; height:28px; padding:0; border:none; background:none; vertical-align:middle; border-radius:5px;" />
+          <button type="button" id="bold-btn" class="toolbar-btn" title="Bold (B)" style="font-weight:bold; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">B</button>
+          <button type="button" id="underline-btn" class="toolbar-btn" title="Underline (U)" style="text-decoration:underline; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">U</button>
+          <span id="align-label" style="margin-left:8px; font-size:0.98em; font-weight:500; color:#4a7bd8;">Align: Left</span>
+          <button type="button" id="align-menu-btn" class="toolbar-btn" title="Align" style="width:28px; height:28px; border-radius:5px; margin-left:2px;">
             <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
           </button>
-          <div id="align-popup" style="display:none; position:absolute; top:38px; left:110px; background:#fff; border:1px solid #b0cbe8; border-radius:7px; box-shadow:0 2px 8px #b0cbe833; z-index:10; min-width:90px; padding:4px 0;">
-            <button type="button" class="toolbar-btn" onclick="handleAlignClick('left'); hideAlignPopup();" title="왼쪽 정렬" style="width:32px; height:32px; margin:2px 6px;">
-              <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'2\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
-            </button>
-            <button type="button" class="toolbar-btn" onclick="handleAlignClick('center'); hideAlignPopup();" title="가운데 정렬" style="width:32px; height:32px; margin:2px 6px;">
-              <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'3\' y=\'4\' width=\'12\' height=\'2\' fill=\'%23333\'/><rect x=\'5\' y=\'8\' width=\'8\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'12\' width=\'6\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
-            </button>
-            <button type="button" class="toolbar-btn" onclick="handleAlignClick('right'); hideAlignPopup();" title="오른쪽 정렬" style="width:32px; height:32px; margin:2px 6px;">
-              <span style="display:inline-block;width:18px;height:18px;background:url('data:image/svg+xml;utf8,<svg width=\'18\' height=\'18\' xmlns=\'http://www.w3.org/2000/svg\'><rect x=\'2\' y=\'4\' width=\'14\' height=\'2\' fill=\'%23333\'/><rect x=\'6\' y=\'8\' width=\'10\' height=\'2\' fill=\'%23333\'/><rect x=\'8\' y=\'12\' width=\'8\' height=\'2\' fill=\'%23333\'/></svg>') no-repeat center;"></span>
-            </button>
+          <div id="align-popup" style="display:none; position:absolute; top:38px; left:180px; background:#fff; border:1px solid #b0cbe8; border-radius:7px; box-shadow:0 2px 8px #b0cbe833; z-index:10; min-width:120px; padding:4px 0;">
+            <button type="button" class="toolbar-btn" onclick="handleAlignClick('left'); hideAlignPopup(); updateAlignLabel('left');" title="Left Align" style="width:32px; height:32px; margin:2px 6px;">Left</button>
+            <button type="button" class="toolbar-btn" onclick="handleAlignClick('center'); hideAlignPopup(); updateAlignLabel('center');" title="Center Align" style="width:32px; height:32px; margin:2px 6px;">Center</button>
+            <button type="button" class="toolbar-btn" onclick="handleAlignClick('right'); hideAlignPopup(); updateAlignLabel('right');" title="Right Align" style="width:32px; height:32px; margin:2px 6px;">Right</button>
           </div>
           <input type="file" id="image-upload" accept="image/*" style="display:none" onchange="handleImageUpload(event)" />
           <button type="button" class="img-btn" onclick="document.getElementById('image-upload').click()" title="사진 첨부" style="width:28px;height:28px;padding:0; border-radius:5px;">
