@@ -252,13 +252,13 @@
         <input type="text" id="post-title" placeholder="제목을 입력하세요" required style="font-size:1.3em; font-weight:bold; margin-bottom:18px; margin-top:2px; padding:14px 12px; border-radius:10px; border:1.5px solid #b0cbe8; background:#f7fafd;" />
         <div id="editor-toolbar" style="margin-bottom:8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; position:relative;">
           <!-- 글자 크기 드롭다운 (5~50pt) -->
-          <select id="font-size" class="toolbar-btn" title="Font Size" style="width:54px; height:28px; border-radius:5px; font-size:0.95em;">
+          <select id="font-size" class="toolbar-btn" title="Font Size" style="width:54px; height:35px; border-radius:5px; font-size:0.95em;">
             <option value="">pt</option>
             <!-- JS로 5~50까지 옵션 추가 -->
           </select>
           <!-- Bold/Underline -->
-          <button type="button" id="bold-btn" class="toolbar-btn" title="Bold (B)" style="font-weight:bold; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">B</button>
-          <button type="button" id="underline-btn" class="toolbar-btn" title="Underline (U)" style="text-decoration:underline; font-size:1.1em; width:28px; height:28px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center;">U</button>
+          <button type="button" id="bold-btn" class="toolbar-btn" title="Bold (B)" style="font-weight:bold; font-size:1.1em; width:28px; height:28px; border-radius:3px; display:inline-flex; align-items:center; justify-content:center;">B</button>
+          <button type="button" id="underline-btn" class="toolbar-btn" title="Underline (U)" style="text-decoration:underline; font-size:1.1em; width:28px; height:28px; border-radius:3px; display:inline-flex; align-items:center; justify-content:center;">U</button>
           <!-- 정렬 버튼 3개 -->
           <button type="button" class="toolbar-btn align-btn" id="align-left" data-align="left" onclick="handleAlignClick('left');" title="왼쪽 정렬" style="width:28px; height:28px; border-radius:5px; background:#dbeafe; border:1.5px solid #b0cbe8; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:4px;">
             <span style="display:block; width:18px; height:3px; background:#444; border-radius:2px; margin-bottom:3px;"></span>
@@ -281,14 +281,14 @@
           <!-- 색상 팔레트 (한컴오피스 스타일) -->
           <div id="color-palette" style="display:flex; flex-direction:row; gap:2px; align-items:center;">
             <div style="display:flex; gap:2px; align-items:center;">
-              <button class="color-btn" style="background:#000; width:28px; height:28px; border-radius:5px; border:1px solid #bbb;" data-color="#000" title="검정"></button>
-              <button class="color-btn" style="background:#dd2713; width:28px; height:28px; border-radius:5px; border:1px solid #bbb;" data-color="#dd2713" title="빨강"></button>
-              <button class="color-btn" style="background:#2a82bc; width:28px; height:28px; border-radius:5px; border:1px solid #bbb;" data-color="#2a82bc" title="파랑"></button>
-              <button class="color-btn" style="background:#1d964f; width:28px; height:28px; border-radius:5px; border:1px solid #bbb;" data-color="#1d964f" title="초록"></button>
-              <button class="color-btn" style="background:#e6c232; width:28px; height:28px; border-radius:5px; border:1px solid #bbb;" data-color="#e6c232" title="노랑"></button>
-              <button class="color-btn" style="background:#793596; width:28px; height:28px; border-radius:5px; border:1px solid #bbb;" data-color="#793596" title="보라"></button>
-              <button class="color-btn" style="background:#6e6e6e; width:28px; height:28px; border-radius:5px; border:1px solid #bbb;" data-color="#6e6e6e" title="회색"></button>
-              <button class="color-btn" style="background:#fff; width:28px; height:28px; border-radius:5px; border:1px solid #bbb;" data-color="#fff" title="흰색"></button>
+              <button class="color-btn" style="background:#000; width:28px; height:28px; border-radius:5px; border:1.5.5px solid #bbb;" data-color="#000" title="검정"></button>
+              <button class="color-btn" style="background:#dd2713; width:28px; height:28px; border-radius:5px; border:1.5px solid #bbb;" data-color="#dd2713" title="빨강"></button>
+              <button class="color-btn" style="background:#2a82bc; width:28px; height:28px; border-radius:5px; border:1.5px solid #bbb;" data-color="#2a82bc" title="파랑"></button>
+              <button class="color-btn" style="background:#1d964f; width:28px; height:28px; border-radius:5px; border:1.5px solid #bbb;" data-color="#1d964f" title="초록"></button>
+              <button class="color-btn" style="background:#e6c232; width:28px; height:28px; border-radius:5px; border:1.5px solid #bbb;" data-color="#e6c232" title="노랑"></button>
+              <button class="color-btn" style="background:#793596; width:28px; height:28px; border-radius:5px; border:1.5px solid #bbb;" data-color="#793596" title="보라"></button>
+              <button class="color-btn" style="background:#6e6e6e; width:28px; height:28px; border-radius:5px; border:1.5px solid #bbb;" data-color="#6e6e6e" title="회색"></button>
+              <button class="color-btn" style="background:#fff; width:28px; height:28px; border-radius:5px; border:1.5px solid #bbb;" data-color="#fff" title="흰색"></button>
               <button id="add-color-btn" style="width:28px; height:28px; border-radius:5px; border:1.5px dashed #bbb; background:#f7fafd; color:#444; font-size:1.2em; margin-left:6px; display:flex; align-items:center; justify-content:center; padding:0;" title="색상 추가">+</button>
               <input type="color" id="inline-font-color" style="display:none;" />
             </div>
