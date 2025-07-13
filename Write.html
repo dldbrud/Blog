@@ -108,7 +108,7 @@
           fontSizeSelect.appendChild(opt);
         }
       }
-      // 글자 크기 변경: 선택한 텍스트에만 적용
+      // 글자 크기 변경: 선택한 텍스트에만 적용 (자동 저장 안함)
       if (fontSizeSelect) {
         fontSizeSelect.onchange = function() {
           const size = fontSizeSelect.value;
@@ -119,18 +119,20 @@
           const span = document.createElement('span');
           span.style.fontSize = size + 'pt';
           range.surroundContents(span);
+          // 자동 저장 제거 - 스타일만 적용
         };
       }
-      // 색상 팔레트 버튼 이벤트
+      // 색상 팔레트 버튼 이벤트 (자동 저장 안함)
       document.querySelectorAll('.color-btn').forEach(btn => {
         btn.onclick = function() {
           const color = btn.dataset.color;
           if (color) {
             applyColorToSelection(color);
+            // 자동 저장 제거 - 색상만 적용
           }
         };
       });
-      // 추가하기 버튼 이벤트
+      // 추가하기 버튼 이벤트 (자동 저장 안함)
       const addColorBtn = document.getElementById('add-color-btn');
       const colorInput = document.getElementById('inline-font-color');
       if (addColorBtn && colorInput) {
@@ -140,9 +142,10 @@
         };
         colorInput.oninput = function(e) {
           applyColorToSelection(e.target.value);
+          // 자동 저장 제거 - 색상만 적용
         };
       }
-      // Bold 적용 즉시
+      // Bold 적용 즉시 (자동 저장 안함)
       const boldBtn = document.getElementById('bold-btn');
       if (boldBtn) {
         boldBtn.onclick = function() {
@@ -153,9 +156,10 @@
           const span = document.createElement('span');
           span.style.fontWeight = 'bold';
           range.surroundContents(span);
+          // 자동 저장 제거 - 굵기만 적용
         };
       }
-      // Underline 적용 즉시
+      // Underline 적용 즉시 (자동 저장 안함)
       const underlineBtn = document.getElementById('underline-btn');
       if (underlineBtn) {
         underlineBtn.onclick = function() {
@@ -166,6 +170,7 @@
           const span = document.createElement('span');
           span.style.textDecoration = 'underline';
           range.surroundContents(span);
+          // 자동 저장 제거 - 밑줄만 적용
         };
       }
     });
@@ -201,6 +206,7 @@
       const span = document.createElement('span');
       span.style.color = color;
       range.surroundContents(span);
+      // 자동 저장 제거 - 색상만 적용
     }
   </script>
 </head>
