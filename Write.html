@@ -97,6 +97,7 @@
     function updateAlignIcon(align) {
       // No icon update needed, keep the ≡ symbol
     }
+    // --- 자동 저장 방지: contenteditable 영역에서 저장 금지 ---
     document.addEventListener('DOMContentLoaded', function() {
       // 글자 크기 옵션 동적 생성 (5~50pt)
       const fontSizeSelect = document.getElementById('font-size');
@@ -119,7 +120,7 @@
           const span = document.createElement('span');
           span.style.fontSize = size + 'pt';
           range.surroundContents(span);
-          // 자동 저장 제거 - 스타일만 적용
+          // 저장 금지: 스타일만 적용
         };
       }
       // 색상 팔레트 버튼 이벤트 (자동 저장 안함)
@@ -128,7 +129,7 @@
           const color = btn.dataset.color;
           if (color) {
             applyColorToSelection(color);
-            // 자동 저장 제거 - 색상만 적용
+            // 저장 금지: 색상만 적용
           }
         };
       });
@@ -142,7 +143,7 @@
         };
         colorInput.oninput = function(e) {
           applyColorToSelection(e.target.value);
-          // 자동 저장 제거 - 색상만 적용
+          // 저장 금지: 색상만 적용
         };
       }
       // Bold 적용 즉시 (자동 저장 안함)
@@ -156,7 +157,7 @@
           const span = document.createElement('span');
           span.style.fontWeight = 'bold';
           range.surroundContents(span);
-          // 자동 저장 제거 - 굵기만 적용
+          // 저장 금지: 굵기만 적용
         };
       }
       // Underline 적용 즉시 (자동 저장 안함)
@@ -170,10 +171,28 @@
           const span = document.createElement('span');
           span.style.textDecoration = 'underline';
           range.surroundContents(span);
-          // 자동 저장 제거 - 밑줄만 적용
+          // 저장 금지: 밑줄만 적용
         };
       }
+      // contenteditable에서 자동 저장 방지
+      const editor = document.getElementById('post-content-editor');
+      if (editor) {
+        // 혹시라도 input/change/blur/key* 이벤트에서 저장이 일어나지 않도록 명시적으로 방지
+        editor.addEventListener('input', function(e) {
+          // 저장 금지: 오직 handlePostSubmit에서만 저장
+        });
+        editor.addEventListener('change', function(e) {
+          // 저장 금지
+        });
+        editor.addEventListener('blur', function(e) {
+          // 저장 금지
+        });
+        editor.addEventListener('keyup', function(e) {
+          // 저장 금지
+        });
+      }
     });
+    // --- 저장은 오직 handlePostSubmit에서만! ---
     window.onload = function() {
       // edit 파라미터가 있으면 해당 글 불러오기
       const editIdx = getQueryParam('edit');
@@ -225,19 +244,17 @@
         <input type="text" id="post-title" placeholder="제목을 입력하세요" required style="font-size:1.3em; font-weight:bold; margin-bottom:18px; margin-top:2px; padding:14px 12px; border-radius:10px; border:1.5px solid #b0cbe8; background:#f7fafd;" />
         <div id="editor-toolbar" style="margin-bottom:8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; position:relative;">
           <!-- 색상 팔레트 (한컴오피스 스타일) -->
-          <div id="color-palette" style="display:flex; flex-direction:column; gap:2px;">
-            <div style="display:flex; gap:2px;">
-              <button class="color-btn" style="background:#000; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#000" title="검정"></button>
-              <button class="color-btn" style="background:#e74c3c; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#e74c3c" title="빨강"></button>
-              <button class="color-btn" style="background:#2980b9; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#2980b9" title="파랑"></button>
-              <button class="color-btn" style="background:#27ae60; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#27ae60" title="초록"></button>
-              <button class="color-btn" style="background:#f1c40f; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#f1c40f" title="노랑"></button>
-              <button class="color-btn" style="background:#8e44ad; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#8e44ad" title="보라"></button>
-              <button class="color-btn" style="background:#7f8c8d; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#7f8c8d" title="회색"></button>
-              <button class="color-btn" style="background:#fff; width:20px; height:20px; border-radius:4px; border:1px solid #bbb;" data-color="#fff" title="흰색"></button>
-            </div>
-            <div style="display:flex; gap:2px;">
-              <button id="add-color-btn" style="width:100%; height:20px; border-radius:4px; border:1px dashed #bbb; background:#f7fafd; color:#444; font-size:0.95em;" title="색상 추가">+ 추가하기</button>
+          <div id="color-palette" style="display:flex; flex-direction:row; gap:2px; align-items:center;">
+            <div style="display:flex; gap:2px; align-items:center;">
+              <button class="color-btn" style="background:#000; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#000" title="검정"></button>
+              <button class="color-btn" style="background:#e74c3c; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#e74c3c" title="빨강"></button>
+              <button class="color-btn" style="background:#2980b9; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#2980b9" title="파랑"></button>
+              <button class="color-btn" style="background:#27ae60; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#27ae60" title="초록"></button>
+              <button class="color-btn" style="background:#f1c40f; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#f1c40f" title="노랑"></button>
+              <button class="color-btn" style="background:#8e44ad; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#8e44ad" title="보라"></button>
+              <button class="color-btn" style="background:#7f8c8d; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#7f8c8d" title="회색"></button>
+              <button class="color-btn" style="background:#fff; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#fff" title="흰색"></button>
+              <button id="add-color-btn" style="width:38px; height:16px; border-radius:4px; border:1px dashed #bbb; background:#f7fafd; color:#444; font-size:0.95em; margin-left:6px; display:flex; align-items:center; justify-content:center; padding:0 4px;" title="색상 추가">+ 추가하기</button>
               <input type="color" id="inline-font-color" style="display:none;" />
             </div>
           </div>
