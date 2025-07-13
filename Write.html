@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>글쓰기 - dldbrud Blog</title>
+  <title>글 작성 - dldbrud Blog</title>
   <link rel="stylesheet" href="style.css" />
   <script>
     // 고유 userId 생성 및 저장
@@ -174,21 +174,29 @@
           // 저장 금지: 밑줄만 적용
         };
       }
-      // contenteditable에서 자동 저장 방지
+      // contenteditable에서 자동 저장 및 자동 submit 방지
       const editor = document.getElementById('post-content-editor');
       if (editor) {
-        // 혹시라도 input/change/blur/key* 이벤트에서 저장이 일어나지 않도록 명시적으로 방지
-        editor.addEventListener('input', function(e) {
-          // 저장 금지: 오직 handlePostSubmit에서만 저장
+        ['input', 'change', 'blur', 'keyup', 'keydown', 'paste'].forEach(eventName => {
+          editor.addEventListener(eventName, function(e) {
+            // 자동 저장/submit 방지
+            e.stopPropagation();
+            if (eventName !== 'input') e.preventDefault();
+            return false;
+          });
         });
-        editor.addEventListener('change', function(e) {
-          // 저장 금지
-        });
-        editor.addEventListener('blur', function(e) {
-          // 저장 금지
-        });
-        editor.addEventListener('keyup', function(e) {
-          // 저장 금지
+      }
+    });
+    // form의 submit은 오직 버튼 클릭으로만 동작하게 함 (엔터 등으로 submit 방지)
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('post-form');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          // submit은 버튼 클릭일 때만 허용
+          if (!(e.submitter && (e.submitter.id === 'submit-btn'))) {
+            e.preventDefault();
+            return false;
+          }
         });
       }
     });
@@ -246,15 +254,15 @@
           <!-- 색상 팔레트 (한컴오피스 스타일) -->
           <div id="color-palette" style="display:flex; flex-direction:row; gap:2px; align-items:center;">
             <div style="display:flex; gap:2px; align-items:center;">
-              <button class="color-btn" style="background:#000; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#000" title="검정"></button>
-              <button class="color-btn" style="background:#e74c3c; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#e74c3c" title="빨강"></button>
-              <button class="color-btn" style="background:#2980b9; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#2980b9" title="파랑"></button>
-              <button class="color-btn" style="background:#27ae60; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#27ae60" title="초록"></button>
-              <button class="color-btn" style="background:#f1c40f; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#f1c40f" title="노랑"></button>
-              <button class="color-btn" style="background:#8e44ad; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#8e44ad" title="보라"></button>
-              <button class="color-btn" style="background:#7f8c8d; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#7f8c8d" title="회색"></button>
-              <button class="color-btn" style="background:#fff; width:10px; height:10px; border-radius:2px; border:1px solid #bbb;" data-color="#fff" title="흰색"></button>
-              <button id="add-color-btn" style="width:38px; height:16px; border-radius:4px; border:1px dashed #bbb; background:#f7fafd; color:#444; font-size:0.95em; margin-left:6px; display:flex; align-items:center; justify-content:center; padding:0 4px;" title="색상 추가">+ 추가하기</button>
+              <button class="color-btn" style="background:#000; width:5px; height:5px; border-radius:1px; border:1px solid #bbb;" data-color="#000" title="검정"></button>
+              <button class="color-btn" style="background:#dd2713; width:5px; height:5px; border-radius:1px; border:1px solid #bbb;" data-color="#dd2713" title="빨강"></button>
+              <button class="color-btn" style="background:#2a82bc; width:5px; height:5px; border-radius:1px; border:1px solid #bbb;" data-color="#2a82bc" title="파랑"></button>
+              <button class="color-btn" style="background:#1d964f; width:5px; height:5px; border-radius:1px; border:1px solid #bbb;" data-color="#1d964f" title="초록"></button>
+              <button class="color-btn" style="background:#e6c232; width:5px; height:5px; border-radius:1px; border:1px solid #bbb;" data-color="#e6c232" title="노랑"></button>
+              <button class="color-btn" style="background:#793596; width:5px; height:5px; border-radius:1px; border:1px solid #bbb;" data-color="#793596" title="보라"></button>
+              <button class="color-btn" style="background:#6e6e6e; width:5px; height:5px; border-radius:1px; border:1px solid #bbb;" data-color="#6e6e6e" title="회색"></button>
+              <button class="color-btn" style="background:#fff; width:5px; height:5px; border-radius:1px; border:1px solid #bbb;" data-color="#fff" title="흰색"></button>
+              <button id="add-color-btn" style="width:38px; height:16px; border-radius:4px; border:1px dashed #bbb; background:#f7fafd; color:#444; font-size:0.95em; margin-left:6px; display:flex; align-items:center; justify-content:center; padding:0 4px;" title=>+ </button>
               <input type="color" id="inline-font-color" style="display:none;" />
             </div>
           </div>
