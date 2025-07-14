@@ -18,7 +18,7 @@
         return;
       }
       document.getElementById('detail-title').textContent = post.title;
-      document.getElementById('detail-content').innerHTML = post.content;
+      document.getElementById('detail-content').innerHTML = post.content.replace(/\n/g, '<br>');
       document.getElementById('detail-content').style.fontSize = post.fontSize + 'px';
       document.getElementById('detail-content').style.textAlign = post.align;
       if (post.image) {
