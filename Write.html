@@ -220,14 +220,8 @@
       }
     }
     function applyColorToSelection(color) {
-      const sel = window.getSelection();
-      if (!sel.rangeCount) return;
-      const range = sel.getRangeAt(0);
-      if (range.collapsed) return;
-      const span = document.createElement('span');
-      span.style.color = color;
-      range.surroundContents(span);
-      // 자동 저장 제거 - 색상만 적용
+      document.execCommand('styleWithCSS', false, true);
+      document.execCommand('foreColor', false, color);
     }
   </script>
 </head>
@@ -279,15 +273,15 @@
           <!-- 색상 팔레트 (한컴오피스 스타일) -->
           <div id="color-palette" style="display:flex; flex-direction:row; gap:2px; align-items:center;">
             <div style="display:flex; gap:2px; align-items:center;">
-              <button class="color-btn" style="background:#000; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#000" title="검정"></button>
-              <button class="color-btn" style="background:#dd2713; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#dd2713" title="빨강"></button>
-              <button class="color-btn" style="background:#2a82bc; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#2a82bc" title="파랑"></button>
-              <button class="color-btn" style="background:#1d964f; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#1d964f" title="초록"></button>
-              <button class="color-btn" style="background:#e6c232; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#e6c232" title="노랑"></button>
-              <button class="color-btn" style="background:#793596; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#793596" title="보라"></button>
-              <button class="color-btn" style="background:#6e6e6e; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#6e6e6e" title="회색"></button>
-              <button class="color-btn" style="background:#fff; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#fff" title="흰색"></button>
-              <button id="add-color-btn" class="toolbar-btn" style="width:25px; height:25px; border:1.5px dashed #bbb; background:#f7fafd; color:#444; margin-left:6px;" title="색상 추가"><span style="width:25px;height:25px;display:inline-block;font-size:1.3em;line-height:25px;text-align:center;">+</span></button>
+              <button class="color-btn" type="button" style="background:#000; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#000" title="검정"></button>
+              <button class="color-btn" type="button" style="background:#dd2713; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#dd2713" title="빨강"></button>
+              <button class="color-btn" type="button" style="background:#2a82bc; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#2a82bc" title="파랑"></button>
+              <button class="color-btn" type="button" style="background:#1d964f; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#1d964f" title="초록"></button>
+              <button class="color-btn" type="button" style="background:#e6c232; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#e6c232" title="노랑"></button>
+              <button class="color-btn" type="button" style="background:#793596; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#793596" title="보라"></button>
+              <button class="color-btn" type="button" style="background:#6e6e6e; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#6e6e6e" title="회색"></button>
+              <button class="color-btn" type="button" style="background:#fff; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#fff" title="흰색"></button>
+              <button id="add-color-btn" class="toolbar-btn" type="button" style="width:25px; height:25px; border:1.5px dashed #bbb; background:#f7fafd; color:#444; margin-left:6px;" title="색상 추가"><span style="width:25px;height:25px;display:inline-block;font-size:1.3em;line-height:25px;text-align:center;">+</span></button>
               <input type="color" id="inline-font-color" style="display:none;" />
             </div>
           </div>

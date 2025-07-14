@@ -48,6 +48,7 @@
       }
       document.getElementById('view-title').textContent = post.title;
       document.getElementById('view-content').innerHTML = post.content.replace(/\n/g, '<br>');
+      document.getElementById('view-content').style.textAlign = post.align || 'left';
       if (post.owner === myUserId) {
         document.getElementById('edit-area').innerHTML = `
           <button id='edit-btn' style='padding:0.7rem 1.2rem;border-radius:8px;background:#b0cbe8;color:#fff;font-weight:bold;border:none;margin-top:1rem;'>수정</button>
