@@ -150,28 +150,14 @@
       const boldBtn = document.getElementById('bold-btn');
       if (boldBtn) {
         boldBtn.onclick = function() {
-          const sel = window.getSelection();
-          if (!sel.rangeCount) return;
-          const range = sel.getRangeAt(0);
-          if (range.collapsed) return;
-          const span = document.createElement('span');
-          span.style.fontWeight = 'bold';
-          range.surroundContents(span);
-          // 저장 금지: 굵기만 적용
+          document.execCommand('bold');
         };
       }
       // Underline 적용 즉시 (자동 저장 안함)
       const underlineBtn = document.getElementById('underline-btn');
       if (underlineBtn) {
         underlineBtn.onclick = function() {
-          const sel = window.getSelection();
-          if (!sel.rangeCount) return;
-          const range = sel.getRangeAt(0);
-          if (range.collapsed) return;
-          const span = document.createElement('span');
-          span.style.textDecoration = 'underline';
-          range.surroundContents(span);
-          // 저장 금지: 밑줄만 적용
+          document.execCommand('underline');
         };
       }
     });
