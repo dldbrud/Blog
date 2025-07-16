@@ -4,25 +4,36 @@
   <meta charset="UTF-8" />
   <title>dldbrud Blog</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <script>
-    // 고유 userId 생성 및 저장
-    function getUserId() {
-      let userId = localStorage.getItem('userId');
-      if (!userId) {
-        userId = 'user-' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('userId', userId);
-      }
-      return userId;
-    }
-    const myUserId = getUserId();
+    const firebaseConfig = {
+      apiKey: "AIzaSyDOhG7lsvH1i127xHjMurxIrBq12h2OPm1",
+      authDomain: "dldbrud-blog-ecd0a.firebaseapp.com",
+      projectId: "dldbrud-blog-ecd0a",
+      storageBucket: "dldbrud-blog-ecd0a.appspot.com",
+      messagingSenderId: "1365607491",
+      appId: "1:1365607491:web:060c078b437a0a5db400f6",
+      measurementId: "G-7C9ZLEMH8W"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-    function loadPosts() {
+    // Firestore 기반 함수로 전체 교체
+    const myUserId = localStorage.getItem('userId') || (function() {
+      const id = 'user-' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('userId', id);
+      return id;
+    })();
+
+    async function loadPosts() {
       const postList = document.getElementById("post-list");
       postList.innerHTML = "";
-      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-      posts.forEach((post, idx) => {
+      const snapshot = await db.collection("posts").orderBy("created", "desc").get();
+      snapshot.forEach(doc => {
+        const post = doc.data();
+        const idx = doc.id;
         const li = document.createElement("li");
-        // 내가 쓴 글이거나 공개글만 제목 표시
         if (!post.private || post.owner === myUserId) {
           const a = document.createElement("a");
           a.href = "#";
@@ -35,13 +46,11 @@
           };
           li.appendChild(a);
         } else {
-          // 비공개글, 남이 쓴 글: '비공개'만 표시
           const span = document.createElement("span");
           span.textContent = "비공개";
           span.style.marginRight = "10px";
           li.appendChild(span);
         }
-        // 내가 쓴 글만 버튼 표시
         if (post.owner === myUserId) {
           const toggleBtn = document.createElement("button");
           toggleBtn.className = "post-btn post-btn-toggle";
@@ -49,7 +58,7 @@
           toggleBtn.textContent = post.private ? '비공개' : '공개';
           toggleBtn.onclick = function(e) {
             e.stopPropagation();
-            togglePrivate(idx);
+            togglePrivate(idx, post.private);
           };
           li.appendChild(toggleBtn);
           const delBtn = document.createElement("button");
@@ -75,30 +84,22 @@
       });
     }
 
-    function openPostInNewWindow(index) {
-      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-      const post = posts[index];
-      if (post && (!post.private || post.owner === myUserId)) {
-        window.open(`post.html?idx=${index}`, "_blank");
-      }
+    async function openPostInNewWindow(id) {
+      window.open(`post.html?idx=${id}`, "_blank");
     }
 
-    function deletePost(index) {
-      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-      posts.splice(index, 1);
-      localStorage.setItem("posts", JSON.stringify(posts));
+    async function deletePost(id) {
+      await db.collection("posts").doc(id).delete();
       loadPosts();
     }
 
-    function togglePrivate(index) {
-      const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-      posts[index].private = !posts[index].private;
-      localStorage.setItem("posts", JSON.stringify(posts));
+    async function togglePrivate(id, current) {
+      await db.collection("posts").doc(id).update({ private: !current });
       loadPosts();
     }
 
-    function startEditPost(index) {
-      window.location.href = `Write.html?edit=${index}`;
+    function startEditPost(id) {
+      window.location.href = `Write.html?edit=${id}`;
     }
 
     window.onload = function() {
