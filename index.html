@@ -19,7 +19,6 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // Firestore 기반 함수로 전체 교체
     const myUserId = localStorage.getItem('userId') || (function() {
       const id = 'user-' + Math.random().toString(36).substr(2, 9);
       localStorage.setItem('userId', id);
@@ -36,14 +35,10 @@
         const li = document.createElement("li");
         if (!post.private || post.owner === myUserId) {
           const a = document.createElement("a");
-          a.href = "#";
+          a.href = `post.html?idx=${idx}`;
           a.innerHTML = post.private ? (post.owner === myUserId ? post.title + " (비공개)" : "비공개") : post.title;
           a.style.marginRight = "10px";
           a.target = "_blank";
-          a.onclick = function(e) {
-            e.preventDefault();
-            if (!post.private || post.owner === myUserId) openPostInNewWindow(idx);
-          };
           li.appendChild(a);
         } else {
           const span = document.createElement("span");
@@ -56,18 +51,20 @@
           toggleBtn.className = "post-btn post-btn-toggle";
           toggleBtn.title = post.private ? "공개로 전환" : "비공개로 전환";
           toggleBtn.textContent = post.private ? '비공개' : '공개';
-          toggleBtn.onclick = function(e) {
+          toggleBtn.onclick = async function(e) {
             e.stopPropagation();
-            togglePrivate(idx, post.private);
+            await db.collection("posts").doc(idx).update({ private: !post.private });
+            loadPosts();
           };
           li.appendChild(toggleBtn);
           const delBtn = document.createElement("button");
           delBtn.className = "post-btn post-btn-delete";
           delBtn.title = "삭제";
           delBtn.textContent = '삭제';
-          delBtn.onclick = function(e) {
+          delBtn.onclick = async function(e) {
             e.stopPropagation();
-            deletePost(idx);
+            await db.collection("posts").doc(idx).delete();
+            loadPosts();
           };
           li.appendChild(delBtn);
           const editBtn = document.createElement("button");
@@ -76,30 +73,12 @@
           editBtn.textContent = '수정';
           editBtn.onclick = function(e) {
             e.stopPropagation();
-            startEditPost(idx);
+            window.location.href = `Write.html?edit=${idx}`;
           };
           li.appendChild(editBtn);
         }
         postList.appendChild(li);
       });
-    }
-
-    async function openPostInNewWindow(id) {
-      window.open(`post.html?idx=${id}`, "_blank");
-    }
-
-    async function deletePost(id) {
-      await db.collection("posts").doc(id).delete();
-      loadPosts();
-    }
-
-    async function togglePrivate(id, current) {
-      await db.collection("posts").doc(id).update({ private: !current });
-      loadPosts();
-    }
-
-    function startEditPost(id) {
-      window.location.href = `Write.html?edit=${id}`;
     }
 
     window.onload = function() {
