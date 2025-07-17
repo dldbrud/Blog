@@ -16,9 +16,10 @@
     <!-- 댓글 섹션 추가 -->
     <div id="comment-section" style="margin-top:2.5rem;">
       <h3>댓글</h3>
+      <hr style="margin:10px 0 18px 0; border:0; border-top:1.5px solid #e0e0e0;">
       <div id="comments-list" style="margin-bottom:10px;"></div>
       <form id="comment-form" style="display:flex;gap:8px;align-items:center;">
-        <input type="text" id="nickname-input" placeholder="닉네임" required style="width:110px;padding:6px 10px;border-radius:6px;border:1px solid #bbb;">
+        <input type="text" id="nickname-input" placeholder="닉네임" required style="width:110px;padding:6px 10px;border-radius:6px;border:1px solid #bbb; display:none;">
         <input type="text" id="comment-input" placeholder="댓글을 입력하세요" required style="flex:1;padding:6px 10px;border-radius:6px;border:1px solid #bbb;">
         <button type="submit" style="padding:6px 16px;border-radius:6px;background:#b0cbe8;color:#fff;font-weight:bold;border:none;">등록</button>
       </form>
@@ -111,6 +112,8 @@
         nicknameInput.focus();
         return;
       }
+      // 닉네임 localStorage 저장
+      localStorage.setItem('blog_nickname', nickname);
       await db.collection("posts").doc(idx).collection("comments").add({
         user: myUserId,
         nickname,
@@ -121,6 +124,15 @@
       // 닉네임은 남겨두고, 댓글만 비움
       loadComments();
     };
+    // 댓글 입력창 클릭 시 닉네임 입력창 보이기 & localStorage에서 불러오기
+    document.getElementById('comment-input').addEventListener('focus', function() {
+      const nicknameInput = document.getElementById('nickname-input');
+      nicknameInput.style.display = '';
+      if (!nicknameInput.value) {
+        const saved = localStorage.getItem('blog_nickname');
+        if (saved) nicknameInput.value = saved;
+      }
+    });
     // 글+댓글 모두 불러오기
     async function showPostAndComments() {
       await showPost();
