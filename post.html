@@ -24,6 +24,9 @@
       <form id="comment-form" style="display:flex;gap:8px;align-items:center;">
         <input type="text" id="comment-input" placeholder="댓글을 입력하세요" required style="flex:1;padding:6px 10px;border-radius:6px;border:1px solid #bbb;">
         <button type="submit" style="padding:6px 16px;border-radius:6px;background:#b0cbe8;color:#fff;font-weight:bold;border:none;">등록</button>
+        <label style="margin-left:8px; font-size:0.98em; display:flex; align-items:center; gap:2px;">
+          <input type="checkbox" id="secret-comment" style="margin-right:3px;">비밀댓글
+        </label>
       </form>
       <!-- 닉네임 입력 모달 -->
       <div id="nickname-modal" style="display:none;position:fixed;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.18);z-index:1000;align-items:center;justify-content:center;">
@@ -62,6 +65,8 @@
     }
     const idx = getQueryParam('idx');
 
+    // 글 ownerId를 Firestore에서 받아오기
+    let postOwnerId = null;
     async function showPost() {
       if (!idx) {
         document.getElementById('view-title').textContent = '글을 찾을 수 없습니다.';
@@ -77,6 +82,7 @@
         return;
       }
       const post = doc.data();
+      postOwnerId = post.owner;
       if (post.private && post.owner !== myUserId) {
         document.getElementById('view-title').textContent = '비공개 글입니다.';
         document.getElementById('view-content').textContent = '';
@@ -106,7 +112,30 @@
         const comment = doc.data();
         const div = document.createElement('div');
         div.style.marginBottom = '8px';
-        div.innerHTML = `<b>${comment.nickname ? comment.nickname : (comment.user || '익명')}:</b> ${comment.content} <span style="color:#888;font-size:0.9em;">(${comment.created?.toDate ? comment.created.toDate().toLocaleString() : ''})</span>`;
+        let canView = false;
+        // 댓글 작성자 또는 글 작성자만 비밀댓글 내용 볼 수 있음
+        if (!comment.secret) {
+          canView = true;
+        } else {
+          if (comment.user === myUserId || postOwnerId === myUserId) canView = true;
+        }
+        let contentHtml = canView
+          ? comment.content
+          : '<span style="color:#b0b;">비밀댓글입니다.</span>';
+        div.innerHTML = `<b>${comment.nickname ? comment.nickname : (comment.user || '익명')}:</b> ${contentHtml} <span style="color:#888;font-size:0.9em;">(${comment.created?.toDate ? comment.created.toDate().toLocaleString() : ''})</span>`;
+        // 댓글 삭제 버튼 (작성자만)
+        if (comment.user === myUserId) {
+          const delBtn = document.createElement('button');
+          delBtn.textContent = '삭제';
+          delBtn.style.cssText = 'margin-left:8px;font-size:0.95em;padding:2px 8px;border-radius:5px;background:#eee;color:#444;border:1px solid #bbb;cursor:pointer;';
+          delBtn.onclick = async function() {
+            if (confirm('댓글을 삭제할까요?')) {
+              await db.collection("posts").doc(idx).collection("comments").doc(doc.id).delete();
+              loadComments();
+            }
+          };
+          div.appendChild(delBtn);
+        }
         commentsList.appendChild(div);
       });
     }
@@ -116,6 +145,7 @@
       const input = document.getElementById('comment-input');
       const content = input.value.trim();
       const nickname = localStorage.getItem('blog_nickname') || '';
+      const secret = document.getElementById('secret-comment').checked;
       if (!content) return;
       if (!nickname) {
         showNicknameModal();
@@ -125,9 +155,11 @@
         user: myUserId,
         nickname,
         content,
+        secret,
         created: new Date()
       });
       input.value = '';
+      document.getElementById('secret-comment').checked = false;
       loadComments();
     };
     // 닉네임 변경 횟수 제한 (최대 3회)
