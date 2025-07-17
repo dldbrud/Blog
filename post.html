@@ -13,33 +13,59 @@
     <h2 id="view-title"></h2>
     <p id="view-content"></p>
     <div id="edit-area" style="margin-top:1.5rem;"></div>
+    <!-- 댓글 섹션 추가 -->
+    <div id="comment-section" style="margin-top:2.5rem;">
+      <h3>댓글</h3>
+      <div id="comments-list" style="margin-bottom:10px;"></div>
+      <form id="comment-form" style="display:flex;gap:8px;align-items:center;">
+        <input type="text" id="nickname-input" placeholder="닉네임" required style="width:110px;padding:6px 10px;border-radius:6px;border:1px solid #bbb;">
+        <input type="text" id="comment-input" placeholder="댓글을 입력하세요" required style="flex:1;padding:6px 10px;border-radius:6px;border:1px solid #bbb;">
+        <button type="submit" style="padding:6px 16px;border-radius:6px;background:#b0cbe8;color:#fff;font-weight:bold;border:none;">등록</button>
+      </form>
+    </div>
   </div>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <script>
-    // 고유 userId 생성 및 저장
-    function getUserId() {
-      let userId = localStorage.getItem('userId');
-      if (!userId) {
-        userId = 'user-' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('userId', userId);
-      }
-      return userId;
-    }
-    const myUserId = getUserId();
-    // 쿼리스트링에서 index 추출
+    const firebaseConfig = {
+      apiKey: "AIzaSyDOhG7lsvH1i127xHjMurxIrBq12h2OPm1",
+      authDomain: "dldbrud-blog-ecd0a.firebaseapp.com",
+      projectId: "dldbrud-blog-ecd0a",
+      storageBucket: "dldbrud-blog-ecd0a.appspot.com",
+      messagingSenderId: "1365607491",
+      appId: "1:1365607491:web:060c078b437a0a5db400f6",
+      measurementId: "G-7C9ZLEMH8W"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const myUserId = localStorage.getItem('userId') || (function() {
+      const id = 'user-' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('userId', id);
+      return id;
+    })();
+
     function getQueryParam(name) {
       const url = new URL(window.location.href);
       return url.searchParams.get(name);
     }
     const idx = getQueryParam('idx');
-    function showPost() {
-      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-      const post = posts[idx];
-      if (!post) {
+
+    async function showPost() {
+      if (!idx) {
         document.getElementById('view-title').textContent = '글을 찾을 수 없습니다.';
         document.getElementById('view-content').textContent = '';
         document.getElementById('edit-area').innerHTML = '';
         return;
       }
+      const doc = await db.collection("posts").doc(idx).get();
+      if (!doc.exists) {
+        document.getElementById('view-title').textContent = '글을 찾을 수 없습니다.';
+        document.getElementById('view-content').textContent = '';
+        document.getElementById('edit-area').innerHTML = '';
+        return;
+      }
+      const post = doc.data();
       if (post.private && post.owner !== myUserId) {
         document.getElementById('view-title').textContent = '비공개 글입니다.';
         document.getElementById('view-content').textContent = '';
@@ -60,8 +86,48 @@
         document.getElementById('edit-area').innerHTML = '';
       }
     }
-    window.onload = showPost;
-    window.onfocus = showPost;
+    // 댓글 불러오기
+    async function loadComments() {
+      const commentsList = document.getElementById('comments-list');
+      commentsList.innerHTML = '';
+      const snapshot = await db.collection("posts").doc(idx).collection("comments").orderBy("created", "asc").get();
+      snapshot.forEach(doc => {
+        const comment = doc.data();
+        const div = document.createElement('div');
+        div.style.marginBottom = '8px';
+        div.innerHTML = `<b>${comment.nickname ? comment.nickname : (comment.user || '익명')}:</b> ${comment.content} <span style="color:#888;font-size:0.9em;">(${comment.created?.toDate ? comment.created.toDate().toLocaleString() : ''})</span>`;
+        commentsList.appendChild(div);
+      });
+    }
+    // 댓글 등록
+    document.getElementById('comment-form').onsubmit = async function(e) {
+      e.preventDefault();
+      const nicknameInput = document.getElementById('nickname-input');
+      const input = document.getElementById('comment-input');
+      const content = input.value.trim();
+      const nickname = nicknameInput.value.trim();
+      if (!content) return;
+      if (!nickname) {
+        nicknameInput.focus();
+        return;
+      }
+      await db.collection("posts").doc(idx).collection("comments").add({
+        user: myUserId,
+        nickname,
+        content,
+        created: new Date()
+      });
+      input.value = '';
+      // 닉네임은 남겨두고, 댓글만 비움
+      loadComments();
+    };
+    // 글+댓글 모두 불러오기
+    async function showPostAndComments() {
+      await showPost();
+      loadComments();
+    }
+    window.onload = showPostAndComments;
+    window.onfocus = showPostAndComments;
   </script>
 </body>
 </html> 
