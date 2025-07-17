@@ -286,6 +286,40 @@
       <p style="font-size: 0.9em; color: #777;">* 작성한 글은 브라우저에 임시 저장됩니다. (LocalStorage 사용)</p>
     </div>
   </main>
+  <!-- 비밀번호 입력 모달 -->
+  <div id="pw-modal" style="position:fixed;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.18);z-index:1000;display:flex;align-items:center;justify-content:center;">
+    <div style="background:#fff;padding:24px 22px 18px 22px;border-radius:10px;box-shadow:0 2px 16px #0002;min-width:220px;max-width:90vw;display:flex;flex-direction:column;align-items:center;">
+      <label for="pw-input" style="font-size:1.1em;margin-bottom:8px;">비밀번호를 입력하세요</label>
+      <input type="password" id="pw-input" style="width:160px;padding:7px 10px;border-radius:6px;border:1px solid #bbb;font-size:1em;">
+      <button id="pw-check-btn" style="margin-top:14px;padding:6px 18px;border-radius:6px;background:#b0cbe8;color:#fff;font-weight:bold;border:none;font-size:1em;">확인</button>
+      <div id="pw-error" style="color:#c00;margin-top:8px;display:none;font-size:0.97em;">비밀번호가 틀렸습니다.</div>
+    </div>
+  </div>
+  <script>
+    // 비밀번호는 여기서 지정
+    const WRITE_PASSWORD = "3948";
+    document.getElementById('pw-check-btn').onclick = function() {
+      const input = document.getElementById('pw-input');
+      const error = document.getElementById('pw-error');
+      if (input.value === WRITE_PASSWORD) {
+        document.getElementById('pw-modal').style.display = 'none';
+        error.style.display = 'none';
+        input.value = '';
+      } else {
+        error.style.display = '';
+        input.value = '';
+        input.focus();
+      }
+    };
+    // 엔터로도 확인
+    document.getElementById('pw-input').onkeydown = function(e) {
+      if (e.key === 'Enter') document.getElementById('pw-check-btn').click();
+    };
+    // 폼 진입 시 포커스
+    window.onload = function() {
+      setTimeout(() => document.getElementById('pw-input').focus(), 100);
+    };
+  </script>
   <footer>
     <p>  &copy; 2025 YuKyeong's Blog</p>
   </footer>
