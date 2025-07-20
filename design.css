@@ -1,0 +1,45 @@
+body {
+  background: #fff;
+  color: #222;
+}
+.card, .about-box {
+  background: #fff;
+  border: 1.5px solid #ececec;
+  box-shadow: 0 2px 12px #0001;
+  border-radius: 22px;
+  margin: 18px auto 18px auto;
+  padding: 24px 18px;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+button, .social-btn, .post-btn, .toolbar-btn {
+  background: #3a4a6d;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+button:hover, .social-btn:hover, .post-btn:hover, .toolbar-btn:hover {
+  background: #223a5e;
+  color: #fff;
+}
+input, textarea, select {
+  background: #fafbff;
+  border: 1.5px solid #ececec;
+  color: #222;
+  border-radius: 14px;
+}
+h1, h2, h3 {
+  color: #222;
+  font-family: 'Georgia', 'Noto Sans KR', 'Apple SD Gothic Neo', serif;
+  font-weight: 700;
+}
+a {
+  color: #3a4a6d;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  color: #223a5e;
+} 
