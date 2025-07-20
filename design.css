@@ -5,12 +5,14 @@ body {
 .card, .about-box {
   background: #fff;
   border: 1.5px solid #ececec;
-  box-shadow: 0 2px 12px #0001;
   border-radius: 22px;
-  margin: 18px auto 18px auto;
-  padding: 24px 18px;
-  max-width: 600px;
-  box-sizing: border-box;
+  box-shadow: 0 2px 12px #0001;
+  margin: 32px auto 32px auto;
+  padding: 38px 38px 32px 38px;
+  max-width: 480px;
+  min-width: 320px;
+  font-size: 1.13em;
+  line-height: 1.6;
 }
 button, .social-btn, .post-btn, .toolbar-btn {
   background: #3a4a6d;
@@ -43,11 +45,54 @@ a:hover {
   text-decoration: underline;
   color: #223a5e;
 }
+.social-btn, .post-btn, .toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  min-height: 32px;
+  font-size: 1em;
+  padding: 0 18px;
+  border-radius: 18px;
+  background: #3a4a6d;
+  color: #fff;
+  border: none;
+  font-weight: 500;
+  margin: 0 6px 0 0;
+  box-shadow: none;
+  transition: background 0.15s, color 0.15s;
+}
+.social-btn:last-child, .post-btn:last-child, .toolbar-btn:last-child {
+  margin-right: 0;
+}
+.social-btn:hover, .post-btn:hover, .toolbar-btn:hover {
+  background: #223a5e;
+  color: #fff;
+}
+h1, h2 {
+  color: #223a5e;
+  font-family: 'Georgia', 'Noto Sans KR', 'Apple SD Gothic Neo', serif;
+  font-weight: 700;
+  margin: 0 0 18px 0;
+  line-height: 1.2;
+}
+nav, .about-nav {
+  text-align: center;
+  font-size: 1.1em;
+  margin-bottom: 18px;
+  color: #223a5e;
+  font-family: 'Georgia', 'Noto Sans KR', 'Apple SD Gothic Neo', serif;
+}
+p, li {
+  font-size: 1em;
+  line-height: 1.6;
+  color: #222;
+  margin: 0 0 12px 0;
+}
 @media (min-width: 601px) {
   .card, .about-box {
-    max-width: 1014px;
-    padding: 48px 32px;
-    font-size: 1.47em;
+    max-width: 1200px;
+    /* padding, font-size 등은 기존대로 */
   }
   .post-top-bar, .write-top-bar {
     font-size: 1.3em;
@@ -74,23 +119,57 @@ a:hover {
   .card, .about-box {
     max-width: 98vw;
     min-width: 0;
-    padding: 12px 2vw !important;
-    font-size: 1.08em;
+    padding: 18px 8px 18px 8px;
+    font-size: 1em;
   }
   #post-content-editor, #post-title {
     font-size: 1.1em !important;
     min-width: 0 !important;
     padding: 0.7em 0.2em !important;
   }
-  h1, h2, h3 {
-    font-size: 1.2em !important;
+  h1, h2 {
+    font-size: 1.2em;
+    margin-bottom: 12px;
+  }
+  nav, .about-nav {
+    font-size: 1em;
+    margin-bottom: 12px;
   }
   button, .social-btn, .post-btn, .toolbar-btn {
-    font-size: 1.08em !important;
-    padding: 0.7em 1.1em !important;
+    font-size: 1em;
+    padding: 0 12px;
+    min-width: 60px;
+    min-height: 28px;
+    border-radius: 14px;
   }
   input, textarea, select {
     font-size: 1.08em !important;
     padding: 0.7em 1.1em !important;
   }
+}
+#editor-toolbar, .toolbar-btn, .align-btn, .img-btn, #font-size {
+  font-size: 1em !important;
+  padding: 0.4em 0.8em !important;
+  gap: 6px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+}
+#editor-toolbar {
+  gap: 6px !important;
+}
+.toolbar-btn, .align-btn, .img-btn {
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 0 !important;
+  font-size: 1em !important;
+}
+#font-size {
+  width: 48px !important;
+  min-width: 48px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  font-size: 1em !important;
+  padding: 0 6px 0 6px !important;
 } 
