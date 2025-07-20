@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>글 작성 - dldbrud Blog</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="design.css" />
+  <link rel="stylesheet" href="WriteDesign.html" />
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <script>
@@ -219,15 +220,20 @@
     }
   </script>
 </head>
-<body>
+<body style="background:#fafbff;">
   <header>
-    <h1>dldbrud Blog</h1>
-    <nav>
-      <a href="index.html">Home</a> |
-      <a href="about.html">About</a>
-    </nav>
+    <h1 style="display:none;">dldbrud Blog</h1>
+    <nav style="display:none;"></nav>
   </header>
   <main>
+    <div class="write-top-bar" style="max-width:700px;margin:0 auto 18px auto;padding:32px 0 0 0;display:flex;flex-direction:column;align-items:center;gap:8px;background:transparent;">
+      <input id="post-title" placeholder="제목을 입력하세요" required style="font-size:2.2em;font-weight:700;text-align:center;border:none;background:transparent;outline:none;width:100%;max-width:600px;margin-bottom:0;" />
+      <div style="display:flex;align-items:center;gap:12px;font-size:1.1em;color:#888;">
+        <span id="write-author" style="font-weight:500;">경이</span>
+        <span id="write-date"></span>
+        <button id="edit-btn" style="font-size:0.98em;padding:4px 16px;border-radius:16px;background:#223a5e;color:#fff;border:none;cursor:default;opacity:0.7;">수정</button>
+      </div>
+    </div>
     <div class="card">
       <h2>🎓 Write New Post</h2>
       <form id="post-form" onsubmit="handlePostSubmit(event)">
@@ -320,6 +326,17 @@
     window.onload = function() {
       setTimeout(() => document.getElementById('pw-input').focus(), 100);
     };
+    // 날짜/시간 표시
+    function updateWriteDate() {
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth()+1).padStart(2,'0');
+      const dd = String(now.getDate()).padStart(2,'0');
+      const hh = String(now.getHours()).padStart(2,'0');
+      const min = String(now.getMinutes()).padStart(2,'0');
+      document.getElementById('write-date').textContent = `${yyyy}. ${mm}. ${dd}. ${hh}:${min}`;
+    }
+    updateWriteDate();
   </script>
   <footer>
     <p>  &copy; 2025 YuKyeong's Blog</p>

@@ -305,7 +305,7 @@ body {
   background: #fff;
   border: 1.5px solid #d1d5db;
   box-shadow: 0 2px 12px #0001;
-  border-radius: 12px;
+  border-radius: 22px;
   margin: 18px auto 18px auto;
   padding: 24px 18px;
   max-width: 600px;
@@ -317,7 +317,7 @@ button, .social-btn, .post-btn, .toolbar-btn {
   background: #223a5e;
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: 16px;
   font-weight: 500;
   transition: background 0.15s, color 0.15s;
 }
@@ -331,6 +331,7 @@ input, textarea, select {
   background: #f8f9fb;
   border: 1.5px solid #d1d5db;
   color: #222;
+  border-radius: 14px;
 }
 
 /* 제목 스타일 */
@@ -438,4 +439,32 @@ a:hover {
     gap: 6px !important;
     flex-wrap: wrap !important;
   }
+}
+
+/* 이미지 둥글게 */
+img, .about-box img, .card img {
+  border-radius: 18px !important;
+}
+
+#editor-toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+@media (max-width: 600px) {
+  #editor-toolbar {
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+  }
+}
+
+/* 데스크탑에서 툴바 상단 고정 제거 (툴바는 입력창과 함께 스크롤) */
+#editor-toolbar {
+  position: static !important;
+  box-shadow: none !important;
+  border-bottom: none !important;
+  margin-bottom: 8px !important;
 }

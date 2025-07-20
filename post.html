@@ -4,15 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>글 보기</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="design.css" />
   <style>
     body { background: #fefef8; }
   </style>
 </head>
-<body>
-  <div class="card" style="max-width:600px;margin:40px auto;padding:30px;">
-    <h2 id="view-title"></h2>
-    <p id="view-content"></p>
+<body style="background:#fafbff;">
+  <div class="card" style="max-width:700px;margin:40px auto 0 auto;padding:0 0 30px 0;background:transparent;box-shadow:none;border:none;">
+    <div class="post-top-bar" style="padding:32px 0 0 0;display:flex;flex-direction:column;align-items:center;gap:8px;background:transparent;">
+      <h2 id="view-title" style="font-size:2.2em;font-weight:700;text-align:center;margin-bottom:0;"></h2>
+      <div style="display:flex;align-items:center;gap:12px;font-size:1.1em;color:#888;">
+        <span id="view-author" style="font-weight:500;">경이</span>
+        <span id="view-date"></span>
+        <button id="edit-btn" style="font-size:0.98em;padding:4px 16px;border-radius:16px;background:#223a5e;color:#fff;border:none;cursor:pointer;display:none;">수정</button>
+      </div>
+    </div>
+    <p id="view-content" style="margin-top:32px;"></p>
     <div id="edit-area" style="margin-top:1.5rem;"></div>
     <!-- 댓글 섹션 추가 -->
     <div id="comment-section" style="margin-top:2.5rem;">
@@ -93,15 +100,15 @@
       document.getElementById('view-title').textContent = post.title;
       document.getElementById('view-content').innerHTML = post.content.replace(/\n/g, '<br>');
       document.getElementById('view-content').style.textAlign = post.align || 'left';
+      document.getElementById('view-author').textContent = '경이';
+      document.getElementById('view-date').textContent = formatDate(post.created);
+      // 수정 버튼 (owner만)
       if (post.owner === myUserId) {
-        document.getElementById('edit-area').innerHTML = `
-          <button id='edit-btn' style='padding:0.7rem 1.2rem;border-radius:8px;background:#b0cbe8;color:#fff;font-weight:bold;border:none;margin-top:1rem;'>수정</button>
-        `;
-        document.getElementById('edit-btn').onclick = function() {
+        const editBtn = document.getElementById('edit-btn');
+        editBtn.style.display = '';
+        editBtn.onclick = function() {
           window.location.href = 'Write.html?edit=' + idx;
         };
-      } else {
-        document.getElementById('edit-area').innerHTML = '';
       }
     }
     // 댓글 불러오기
@@ -247,6 +254,17 @@
     }
     window.onload = showPostAndComments;
     window.onfocus = showPostAndComments;
+    // 날짜/시간 표시 (글 데이터에서)
+    function formatDate(dateObj) {
+      if (!dateObj) return '';
+      const d = dateObj.toDate ? dateObj.toDate() : new Date(dateObj);
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth()+1).padStart(2,'0');
+      const dd = String(d.getDate()).padStart(2,'0');
+      const hh = String(d.getHours()).padStart(2,'0');
+      const min = String(d.getMinutes()).padStart(2,'0');
+      return `${yyyy}. ${mm}. ${dd}. ${hh}:${min}`;
+    }
   </script>
 </body>
 </html> 
