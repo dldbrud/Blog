@@ -253,3 +253,52 @@ h2 {
 .toolbar-btn:hover, .toolbar-btn:focus {
   background: #e0e7ff;
 }
+
+/* 모바일 반응형 스타일 */
+@media (max-width: 600px) {
+  body {
+    font-size: 1.05em;
+    padding: 0 2vw;
+  }
+  .card, .about-box {
+    padding: 12px 6px !important;
+    margin: 12px 0 !important;
+    border-radius: 8px !important;
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+  .social-buttons {
+    flex-direction: column !important;
+    gap: 8px !important;
+    align-items: stretch !important;
+  }
+  .social-btn {
+    font-size: 1.1em !important;
+    padding: 10px 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+  input, textarea, select, button {
+    font-size: 1em !important;
+    width: 100% !important;
+    box-sizing: border-box;
+    margin-bottom: 8px !important;
+  }
+  #editor-toolbar {
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+  }
+  #post-content-editor {
+    min-height: 80px !important;
+    font-size: 1em !important;
+  }
+  header, footer {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    text-align: center !important;
+  }
+  h1, h2, h3 {
+    font-size: 1.2em !important;
+  }
+}
