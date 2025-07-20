@@ -5,37 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About Me</title>
   <link rel="stylesheet" href="design.css" />
+  <style>
+    .about-header {
+      text-align: center;
+      margin-top: 32px;
+      margin-bottom: 0;
+    }
+    .about-nav {
+      text-align: center;
+      margin-bottom: 32px;
+      font-size: 1.1em;
+    }
+    .about-box {
+      margin: 0 auto;
+      padding: 38px 38px 32px 38px;
+      border-radius: 22px;
+      box-shadow: 0 2px 12px #0001;
+      background: #fff;
+      border: 1.5px solid #ececec;
+      max-width: 480px;
+      min-width: 320px;
+      text-align: left;
+      font-size: 1.13em;
+    }
+    .about-social {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 600px) {
+      .about-box {
+        padding: 18px 8px 18px 8px;
+        max-width: 98vw;
+      }
+      .about-header {
+        margin-top: 18px;
+      }
+      .about-social {
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 <body style="background:#fff;">
   <header>
-    <h1>About Me</h1>
-    <nav>
+    <h1 class="about-header">dldbrud Blog</h1>
+    <nav class="about-nav">
       <a href="index.html">Home</a> |
       <a href="about.html">About</a>
     </nav>
   </header>
-
-  <div class="social-buttons">
-    <a href="https://www.instagram.com/dldbrud__3948/" target="_blank" class="social-btn">📸 Instagram</a>
-    <a href="https://github.com/dldbrud" target="_blank" class="social-btn" style="display:inline-flex;align-items:center;gap:4px;">
-      <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" style="width:22px;height:22px;vertical-align:middle;border-radius:50%;background:#fff;"> GitHub
-    </a>
-  </div>
-
   <main>
-    <section class="about-box">
-      <h2>☃️ About Me</h2>
-      <p><strong>👩‍💻 Name:</strong> Lee Yukyung </p>
+    <div class="about-box">
+      <div class="about-social">
+        <a href="https://www.instagram.com/dldbrud__3948/" target="_blank" class="social-btn">📸 Instagram</a>
+        <a href="https://github.com/dldbrud" target="_blank" class="social-btn">🐙 GitHub</a>
+      </div>
+      <h2 style="text-align:left; margin-bottom:24px;">About Me</h2>
+      <p><strong>👩‍💻 Name:</strong> Lee Yukyung</p>
       <p><strong>🎂 Age:</strong> 21 (Born on March 8, 2005)</p>
       <p><strong>🏠 Location:</strong> South Korea, Anseong</p>
-      <p><strong>🎓 School:</strong> Kongju National University </p>
-      <p><strong>💻 Major:</strong> Software Engineering </p>
+      <p><strong>🎓 School:</strong> Kongju National University</p>
+      <p><strong>💻 Major:</strong> Software Engineering</p>
       <p><strong>📧 Email:</strong> dldbrud3948@gmail.com </p>
-
-      <h2>⛄ Introduction</h2>
+      <h2 style="text-align:left; margin:32px 0 12px 0;">Introduction</h2>
       <p>I love <strong>animals 🐾</strong> and <strong>chocolate 🍫</strong></p>
-      <p>This blog is a place where I write about everything about myself, including my daily life and interests.</p>
-    </section>
+      <p style="margin-top:18px;">This blog is a place where I write about everything about myself, including my daily life and interests.</p>
+    </div>
   </main>
 </body>
 </html>
