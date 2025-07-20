@@ -254,6 +254,58 @@ h2 {
   background: #e0e7ff;
 }
 
+/* 버튼 및 입력 요소 기본 스타일 개선 */
+button, .social-btn, .post-btn, .toolbar-btn {
+  margin: 0 4px 8px 0;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+button:last-child, .social-btn:last-child, .post-btn:last-child, .toolbar-btn:last-child {
+  margin-right: 0;
+}
+.social-btn, .post-btn, .toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  min-height: 36px;
+  text-decoration: none;
+  background: #e0e7ff;
+  color: #222;
+  font-weight: 500;
+  border: 1.5px solid #b0cbe8;
+  margin-bottom: 10px;
+}
+.social-btn:hover, .post-btn:hover, .toolbar-btn:hover {
+  background: #b0cbe8;
+  color: #fff;
+}
+input, textarea, select {
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1.5px solid #b0cbe8;
+  font-size: 1em;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+}
+.card, .about-box {
+  margin: 18px auto 18px auto;
+  padding: 24px 18px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #0001;
+  background: #fff;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
 /* 모바일 반응형 스타일 */
 @media (max-width: 600px) {
   body {
@@ -273,17 +325,18 @@ h2 {
     gap: 8px !important;
     align-items: stretch !important;
   }
-  .social-btn {
+  .social-btn, .post-btn, .toolbar-btn {
     font-size: 1.1em !important;
     padding: 10px 0 !important;
     width: 100% !important;
     min-width: 0 !important;
+    margin-bottom: 10px !important;
   }
   input, textarea, select, button {
     font-size: 1em !important;
     width: 100% !important;
     box-sizing: border-box;
-    margin-bottom: 8px !important;
+    margin-bottom: 10px !important;
   }
   #editor-toolbar {
     flex-wrap: wrap !important;
