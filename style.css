@@ -296,14 +296,58 @@ input, textarea, select {
   width: 100%;
   max-width: 100%;
 }
+/* 전체 배경 및 카드 스타일 - 밝지만 너무 하얗지 않은 분위기 */
+body {
+  background: #f4f4f6;
+  color: #222;
+}
 .card, .about-box {
+  background: #fff;
+  border: 1.5px solid #d1d5db;
+  box-shadow: 0 2px 12px #0001;
+  border-radius: 12px;
   margin: 18px auto 18px auto;
   padding: 24px 18px;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px #0001;
-  background: #fff;
   max-width: 600px;
   box-sizing: border-box;
+}
+
+/* 버튼 스타일 - 진한 남색 */
+button, .social-btn, .post-btn, .toolbar-btn {
+  background: #223a5e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+button:hover, .social-btn:hover, .post-btn:hover, .toolbar-btn:hover {
+  background: #16223a;
+  color: #fff;
+}
+
+/* 입력창 스타일 */
+input, textarea, select {
+  background: #f8f9fb;
+  border: 1.5px solid #d1d5db;
+  color: #222;
+}
+
+/* 제목 스타일 */
+h1, h2, h3 {
+  color: #223a5e;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 700;
+}
+
+/* 링크 스타일 */
+a {
+  color: #223a5e;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  color: #16223a;
 }
 
 /* 모바일 반응형 스타일 */
@@ -353,5 +397,45 @@ input, textarea, select {
   }
   h1, h2, h3 {
     font-size: 1.2em !important;
+  }
+}
+
+/* 모바일 툴바 고정 스타일 제거 (툴바는 입력창과 함께 스크롤) */
+.editor-toolbar-mobile {
+  position: static !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: auto !important;
+  background: #f7fafd;
+  box-shadow: none !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 6px 0 6px 0 !important;
+  border-top: none !important;
+  border-radius: 8px 8px 0 0;
+  display: flex !important;
+  gap: 6px !important;
+  flex-wrap: wrap !important;
+}
+@media (max-width: 600px) {
+  .editor-toolbar-mobile {
+    position: static !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    z-index: auto !important;
+    background: #f7fafd;
+    box-shadow: none !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 6px 0 6px 0 !important;
+    border-top: none !important;
+    border-radius: 8px 8px 0 0;
+    display: flex !important;
+    gap: 6px !important;
+    flex-wrap: wrap !important;
   }
 }
