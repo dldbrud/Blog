@@ -10,11 +10,30 @@
       text-align: center;
       margin-top: 32px;
       margin-bottom: 0;
+      color: #223a5e;
+      font-family: 'Georgia', 'Noto Sans KR', 'Apple SD Gothic Neo', serif;
+      font-size: 2.3em;
+      font-weight: 700;
+      letter-spacing: -0.01em;
     }
     .about-nav {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 0;
       font-size: 1.1em;
+    }
+    .about-divider {
+      width: 100vw;
+      max-width: 100%;
+      border: none;
+      border-top: 2.5px solid #ececec;
+      margin: 18px 0 24px 0;
+      background: #ececec;
+    }
+    .about-social {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 32px;
     }
     .about-box {
       margin: 0 auto;
@@ -28,12 +47,6 @@
       text-align: left;
       font-size: 1.13em;
     }
-    .about-social {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
     @media (max-width: 600px) {
       .about-box {
         padding: 18px 8px 18px 8px;
@@ -41,35 +54,34 @@
       }
       .about-header {
         margin-top: 18px;
-      }
-      .about-social {
-        justify-content: center;
+        font-size: 1.5em;
       }
     }
   </style>
 </head>
 <body style="background:#fff;">
   <header>
-    <h1 class="about-header">dldbrud Blog</h1>
+    <h1 class="about-header">About Me</h1>
     <nav class="about-nav">
       <a href="index.html">Home</a> |
       <a href="about.html">About</a>
     </nav>
+    <hr class="about-divider" />
+    <div class="about-social">
+      <a href="https://www.instagram.com/dldbrud__3948/" target="_blank" class="social-btn">📸 Instagram</a>
+      <a href="https://github.com/dldbrud" target="_blank" class="social-btn">🐙 GitHub</a>
+    </div>
   </header>
   <main>
     <div class="about-box">
-      <div class="about-social">
-        <a href="https://www.instagram.com/dldbrud__3948/" target="_blank" class="social-btn">📸 Instagram</a>
-        <a href="https://github.com/dldbrud" target="_blank" class="social-btn">🐙 GitHub</a>
-      </div>
-      <h2 style="text-align:left; margin-bottom:24px;">About Me</h2>
+      <h2 style="text-align:left; margin-bottom:24px; color:#223a5e; font-family:'Georgia','Noto Sans KR','Apple SD Gothic Neo',serif; font-size:1.5em; font-weight:700;">About Me</h2>
       <p><strong>👩‍💻 Name:</strong> Lee Yukyung</p>
       <p><strong>🎂 Age:</strong> 21 (Born on March 8, 2005)</p>
       <p><strong>🏠 Location:</strong> South Korea, Anseong</p>
       <p><strong>🎓 School:</strong> Kongju National University</p>
       <p><strong>💻 Major:</strong> Software Engineering</p>
       <p><strong>📧 Email:</strong> dldbrud3948@gmail.com </p>
-      <h2 style="text-align:left; margin:32px 0 12px 0;">Introduction</h2>
+      <h2 style="text-align:left; margin:32px 0 12px 0; color:#223a5e; font-family:'Georgia','Noto Sans KR','Apple SD Gothic Neo',serif; font-size:1.2em; font-weight:700;">Introduction</h2>
       <p>I love <strong>animals 🐾</strong> and <strong>chocolate 🍫</strong></p>
       <p style="margin-top:18px;">This blog is a place where I write about everything about myself, including my daily life and interests.</p>
     </div>

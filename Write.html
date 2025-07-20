@@ -222,14 +222,56 @@
 </head>
 <body style="background:#fff;">
   <main>
-    <div style="max-width:52vw;min-width:320px;margin:0 auto 0 auto;padding:0 0 48px 0;background:#fff;border:none;box-shadow:none;border-radius:22px;">
-      <div id="editor-toolbar"></div>
+    <form id="post-form" onsubmit="handlePostSubmit(event)" style="max-width:52vw;min-width:320px;margin:0 auto 0 auto;padding:0 0 48px 0;background:#fff;border:none;box-shadow:none;border-radius:22px;">
+      <div id="editor-toolbar" style="position:fixed;top:0;left:0;width:100vw;background:#fff;display:flex;align-items:center;gap:14px;flex-wrap:nowrap;justify-content:flex-start;padding:18px 0 10px 0;border-bottom:1.5px solid #ececec;box-shadow:0 2px 12px #0002;z-index:2000;min-width:320px;">
+        <select id="font-size" class="toolbar-btn" title="Font Size" style="width:54px; height:28px; border-radius:3px; font-size:1.1em; padding:0 8px 0 6px; display:flex; align-items:center; vertical-align:bottom; line-height:28px; margin-bottom:0; box-sizing:border-box;">
+          <option value="">pt</option>
+        </select>
+        <button type="button" id="bold-btn" class="toolbar-btn" title="Bold (B)" style="width:25px; height:25px;"><span style="font-weight:bold;width:25px;height:25px;display:inline-block;line-height:25px;text-align:center;">B</span></button>
+        <button type="button" id="underline-btn" class="toolbar-btn" title="Underline (U)" style="width:25px; height:25px;"><span style="text-decoration:underline;width:25px;height:25px;display:inline-block;line-height:25px;text-align:center;">U</span></button>
+        <button type="button" class="toolbar-btn align-btn" id="align-left" data-align="left" onclick="handleAlignClick('left');" title="왼쪽 정렬" style="width:25px; height:25px;">
+          <span style="width:25px;height:25px;display:inline-block;">
+            <svg width="25" height="25"><rect x="3" y="7" width="19" height="3" fill="#333"/><rect x="3" y="12" width="13" height="3" fill="#333"/><rect x="3" y="17" width="7" height="3" fill="#333"/></svg>
+          </span>
+        </button>
+        <button type="button" class="toolbar-btn align-btn" id="align-center" data-align="center" onclick="handleAlignClick('center');" title="가운데 정렬" style="width:25px; height:25px;">
+          <span style="width:25px;height:25px;display:inline-block;">
+            <svg width="25" height="25"><rect x="5" y="7" width="15" height="3" fill="#333"/><rect x="7" y="12" width="11" height="3" fill="#333"/><rect x="9" y="17" width="7" height="3" fill="#333"/></svg>
+          </span>
+        </button>
+        <button type="button" class="toolbar-btn align-btn" id="align-right" data-align="right" onclick="handleAlignClick('right');" title="오른쪽 정렬" style="width:25px; height:25px;">
+          <span style="width:25px;height:25px;display:inline-block;">
+            <svg width="25" height="25"><rect x="3" y="7" width="19" height="3" fill="#333"/><rect x="9" y="12" width="13" height="3" fill="#333"/><rect x="15" y="17" width="7" height="3" fill="#333"/></svg>
+          </span>
+        </button>
+        <input type="file" id="image-upload" accept="image/*" style="display:none" onchange="handleImageUpload(event)" />
+        <button type="button" class="toolbar-btn img-btn" onclick="document.getElementById('image-upload').click()" title="Attach Image" style="width:25px; height:25px;">
+          <span style="width:25px;height:25px;display:inline-block;">
+            <svg width="25" height="25"><rect x="3" y="20" width="19" height="3" fill="#66a"/><circle cx="10" cy="13" r="4" fill="#66a"/><rect x="15" y="9" width="6" height="8" fill="#9cf"/></svg>
+          </span>
+        </button>
+        <div id="color-palette" style="display:flex; flex-direction:row; gap:2px; align-items:center;">
+          <div style="display:flex; gap:2px; align-items:center;">
+            <button class="color-btn" type="button" style="background:#000; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#000" title="검정"></button>
+            <button class="color-btn" type="button" style="background:#dd2713; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#dd2713" title="빨강"></button>
+            <button class="color-btn" type="button" style="background:#2a82bc; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#2a82bc" title="파랑"></button>
+            <button class="color-btn" type="button" style="background:#1d964f; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#1d964f" title="초록"></button>
+            <button class="color-btn" type="button" style="background:#e6c232; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#e6c232" title="노랑"></button>
+            <button class="color-btn" type="button" style="background:#793596; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#793596" title="보라"></button>
+            <button class="color-btn" type="button" style="background:#6e6e6e; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#6e6e6e" title="회색"></button>
+            <button class="color-btn" type="button" style="background:#fff; width:28px; height:28px; border-radius:3px; border:1.5px solid #bbb;" data-color="#fff" title="흰색"></button>
+            <button id="add-color-btn" class="toolbar-btn" type="button" style="width:25px; height:25px; border:1.5px dashed #bbb; background:#f7fafd; color:#444; margin-left:6px;" title="색상 추가"><span style="width:25px;height:25px;display:inline-block;font-size:1.3em;line-height:25px;text-align:center;">+</span></button>
+            <input type="color" id="inline-font-color" style="display:none;" />
+          </div>
+        </div>
+      </div>
+      <div style="height:70px;"></div>
       <input id="post-title" placeholder="제목" required style="font-size:2.7em;font-weight:700;text-align:center;border:none;background:transparent;outline:none;width:100%;margin:56px 0 0 0;padding:0;color:#b0b0b0;letter-spacing:-0.01em;line-height:1.18;font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;" />
       <hr style="width:100%;border:none;border-top:1.5px solid #ececec;margin:24px 0 0 0;">
       <div style="text-align:center;color:#b0b0b0;font-size:1.15em;margin:38px 0 0 0;">최근 다녀온 곳을 지도와 함께 기록해보세요!</div>
       <div id="post-content-editor" contenteditable="true" style="border:none;min-height:220px;padding:18px 0 8px 0;margin-bottom:8px;font-size:1.18em;text-align:left;background:transparent;outline:none;box-sizing:border-box;font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;line-height:1.7;"></div>
       <button type="submit" id="submit-btn" style="padding:8px 32px;font-size:1.1em;border-radius:16px;background:#223a5e;color:#fff;font-weight:500;border:none;margin:32px auto 0 auto;display:block;transition:background 0.15s, color 0.15s;">작성하기</button>
-    </div>
+    </form>
   </main>
   <!-- 비밀번호 입력 모달 -->
   <div id="pw-modal" style="position:fixed;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.18);z-index:1000;display:flex;align-items:center;justify-content:center;">
