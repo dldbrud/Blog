@@ -237,7 +237,7 @@ h2 {
 }
 
 .toolbar-btn {
-  background: #f3f3f3;
+  background: #dcdcdc;
   border: none;
   border-radius: 5px;
   width: 28px;
@@ -302,7 +302,7 @@ body {
   color: #222;
 }
 .card, .about-box {
-  background: #fff;
+  background: #bfbfbf;
   border: 1.5px solid #d1d5db;
   box-shadow: 0 2px 12px #0001;
   border-radius: 22px;
@@ -322,8 +322,8 @@ button, .social-btn, .post-btn, .toolbar-btn {
   transition: background 0.15s, color 0.15s;
 }
 button:hover, .social-btn:hover, .post-btn:hover, .toolbar-btn:hover {
-  background: #16223a;
-  color: #fff;
+  background: #17233b;
+  color: #f3eded;
 }
 
 /* 입력창 스타일 */
@@ -343,7 +343,7 @@ h1, h2, h3 {
 
 /* 링크 스타일 */
 a {
-  color: #223a5e;
+  color: #000000;
   text-decoration: none;
 }
 a:hover {
