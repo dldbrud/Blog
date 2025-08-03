@@ -302,7 +302,7 @@ body {
   color: #222;
 }
 .card, .about-box {
-  background: #bfbfbf;
+  background: #fff; /* 화이트 계열로 변경 */
   border: 1.5px solid #d1d5db;
   box-shadow: 0 2px 12px #0001;
   border-radius: 22px;
@@ -310,6 +310,12 @@ body {
   padding: 24px 18px;
   max-width: 600px;
   box-sizing: border-box;
+}
+
+/* about-box 크기 조정 */
+.about-box {
+  max-width: 400px; /* 기존 600px의 2/3로 축소 */
+  padding: 18px 12px;
 }
 
 /* 버튼 스타일 - 진한 남색 */
@@ -386,6 +392,7 @@ a:hover {
   #editor-toolbar {
     flex-wrap: wrap !important;
     gap: 4px !important;
+    margin-bottom: 8px !important;
   }
   #post-content-editor {
     min-height: 80px !important;
@@ -458,9 +465,9 @@ img, .about-box img, .card img {
   #editor-toolbar {
     flex-wrap: wrap !important;
     gap: 4px !important;
+    margin-bottom: 8px !important;
   }
 }
-
 /* 데스크탑에서 툴바 상단 고정 제거 (툴바는 입력창과 함께 스크롤) */
 #editor-toolbar {
   position: static !important;
