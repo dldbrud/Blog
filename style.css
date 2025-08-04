@@ -302,7 +302,7 @@ body {
   color: #222;
 }
 .card, .about-box {
-  background: #fefefe; /* 따뜻한 화이트 계열로 변경 */
+  background: #fefefe; /* my post 따뜻한 화이트 계열로 변경 */
   border: 1.5px solid #e8e8e8;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border-radius: 22px;
