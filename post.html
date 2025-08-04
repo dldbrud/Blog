@@ -10,7 +10,7 @@
     
     /* 이미지 크기 제한 */
     #view-content img {
-      max-width: calc(100% - 2cm);
+      max-width: 60%;
       height: auto;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -20,8 +20,8 @@
     
     /* 큰 이미지의 경우 추가 제한 */
     #view-content img[src*="http"] {
-      max-width: calc(100% - 2cm);
-      max-height: 500px;
+      max-width: 60%;
+      max-height: 400px;
       object-fit: contain;
     }
     
@@ -38,7 +38,7 @@
   <div class="card" style="max-width:800px;min-width:0;margin:22px auto 0 auto;padding:0 0 62px 0;background:#fff;border:none;box-shadow:none;border-radius:22px;">
     <div class="post-top-bar" style="padding:0 0 0 0;display:flex;flex-direction:column;align-items:flex-start;gap:0;background:transparent;">
       <h2 id="view-title" style="font-size:2.2em;font-weight:700;text-align:center;margin:56px 0 0 0;width:100%;letter-spacing:-0.01em;line-height:1.18;font-family:Arial,sans-serif;"></h2>
-      <div style="display:flex;align-items:center;gap:12px;font-size:1em;color:#1c1c1c;margin-left:0;margin-top:32px;">
+      <div style="display:flex;align-items:center;gap:12px;font-size:1em;color:#696969;margin-left:0;margin-top:32px;">
         <img id="view-avatar" src="https://avatars.githubusercontent.com/u/16655501?v=4" alt="author" style="width:38px;height:38px;border-radius:50%;object-fit:cover;object-position:center;background:#eee;">
         <span id="view-author" style="font-weight:500;font-size:1.08em;">경이</span>
         <span id="view-date" style="font-size:1.05em;"></span>
@@ -48,9 +48,9 @@
     </div>
     <p id="view-content" style="margin-top:54px;font-size:1.18em;line-height:1.7;font-family:Arial,sans-serif;"></p>
     <div id="edit-area" style="margin-top:1.5rem;"></div>
-    <!-- 댓글 섹션 추가 -->
-    <div id="comment-section" style="margin-top:2.5rem;">
-      <h3>댓글</h3>
+         <!-- 댓글 섹션 추가 -->
+     <div id="comment-section" style="margin-top:3.5rem;">
+      <h3 style="font-size:1.08em;font-weight:500;font-family:Arial,sans-serif;"> 댓글</h3>
       <hr style="margin:10px 0 18px 0; border:0; border-top:1.5px solid #e0e0e0;">
       <div style="text-align:right; margin-bottom:6px;">
         <button id="change-nickname-btn" style="font-size:0.97em; background:none; border:none; color:#4a6fc1; cursor:pointer; text-decoration:underline;">닉네임 변경</button>
