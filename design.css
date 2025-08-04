@@ -201,17 +201,17 @@ p, li {
 
 /* 게시물 이미지 크기 제한 */
 #view-content img {
-  max-width: 100%;
+  max-width: 90%;
   height: auto;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  margin: 16px 0;
+  margin: 16px auto;
   display: block;
 }
 
 /* 큰 이미지의 경우 추가 제한 */
 #view-content img[src*="http"] {
-  max-width: 80%;
+  max-width: 70%;
   max-height: 500px;
   object-fit: contain;
 }
