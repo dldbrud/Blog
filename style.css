@@ -302,9 +302,9 @@ body {
   color: #222;
 }
 .card, .about-box {
-  background: #fff; /* 화이트 계열로 변경 */
-  border: 1.5px solid #d1d5db;
-  box-shadow: 0 2px 12px #0001;
+  background: #fefefe; /* 따뜻한 화이트 계열로 변경 */
+  border: 1.5px solid #e8e8e8;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border-radius: 22px;
   margin: 18px auto 18px auto;
   padding: 24px 18px;

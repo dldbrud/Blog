@@ -2,6 +2,31 @@ body {
   background: #fff;
   color: #222;
 }
+
+header {
+  background-color: #e8eff5;
+  text-align: center;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #223a5e;
+}
+
+nav {
+  margin-top: 0.5rem;
+}
+
+nav a {
+  margin: 0 0.5rem;
+  text-decoration: none;
+  font-weight: bold;
+  color: #333;
+}
 .card, .about-box {
   background: #fff;
   border: 1.5px solid #ececec;
