@@ -11,11 +11,11 @@
     /* 이미지 크기 제한 */
     #view-content img {
       max-width: calc(100% - 40px);
-      width: 90%;
+      width: 80%;
       height: auto;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      margin: 16px auto;
+      margin: 15px auto;
       display: block;
     }
     
@@ -50,21 +50,21 @@
     </div>
     <p id="view-content" style="margin-top:54px;font-size:1.18em;line-height:1.7;font-family:Arial,sans-serif;"></p>
     <div id="edit-area" style="margin-top:1.5rem;"></div>
-         <!-- 댓글 섹션 추가 -->
-     <div id="comment-section" style="margin-top:3.5rem;">
-      <h3 style="font-size:1.08em;font-weight:500;font-family:Arial,sans-serif;"> 댓글</h3>
-      <hr style="margin:10px 0 18px 0; border:0; border-top:1.5px solid #e0e0e0;">
-      <div style="text-align:right; margin-bottom:6px;">
-        <button id="change-nickname-btn" style="font-size:0.97em; background:none; border:none; color:#4a6fc1; cursor:pointer; text-decoration:underline;">닉네임 변경</button>
-      </div>
-      <div id="comments-list" style="margin-bottom:10px;"></div>
-      <form id="comment-form" style="display:flex;gap:8px;align-items:center;">
-        <input type="text" id="comment-input" placeholder="댓글을 입력하세요" required style="flex:1;padding:6px 10px;border-radius:6px;border:1px solid #bbb;">
-        <button type="submit" style="padding:6px 16px;border-radius:6px;background:#b0cbe8;color:#fff;font-weight:bold;border:none;">등록</button>
-        <label style="margin-left:8px; font-size:0.98em; display:flex; align-items:center; gap:2px;">
-          <input type="checkbox" id="secret-comment" style="margin-right:3px;">비밀댓글
-        </label>
-      </form>
+              <!-- 댓글 섹션 추가 -->
+     <div id="comment-section" style="margin-top:2.5rem;padding-left:32px;">
+       <h3 style="font-size:1.08em;font-weight:500;font-family:Arial,sans-serif;"> 댓글</h3>
+       <hr style="margin:10px 0 18px 0; border:0; border-top:1.5px solid #e0e0e0;">
+       <div style="text-align:right; margin-bottom:6px;">
+         <button id="change-nickname-btn" style="font-size:0.97em; background:none; border:none; color:#4a6fc1; cursor:pointer; text-decoration:underline;">닉네임 변경</button>
+       </div>
+       <div id="comments-list" style="margin-bottom:10px;"></div>
+       <form id="comment-form" style="display:flex;gap:8px;align-items:center;">
+         <input type="text" id="comment-input" placeholder="댓글을 입력하세요" required style="flex:1;padding:6px 10px;border-radius:6px;border:1px solid #bbb;">
+         <button type="submit" style="padding:6px 16px;border-radius:6px;background:#b0cbe8;color:#fff;font-weight:bold;border:none;">등록</button>
+         <label style="margin-left:8px; font-size:0.98em; display:flex; align-items:center; gap:2px;">
+           <input type="checkbox" id="secret-comment" style="margin-right:3px;">비밀댓글
+         </label>
+       </form>
       <!-- 닉네임 입력 모달 -->
       <div id="nickname-modal" style="display:none;position:fixed;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.18);z-index:1000;align-items:center;justify-content:center;">
         <div style="background:#fff;padding:24px 22px 18px 22px;border-radius:10px;box-shadow:0 2px 16px #0002;min-width:220px;max-width:90vw;display:flex;flex-direction:column;align-items:center;">
