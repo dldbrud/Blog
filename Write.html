@@ -33,7 +33,7 @@
       document.getElementById("post-title").value = title;
       const editor = document.getElementById("post-content-editor");
       editor.innerHTML = content;
-      editor.style.fontSize = fontSize + 'px';
+      editor.style.fontSize = fontSize + 'pt';
       editor.style.textAlign = align;
       document.getElementById("font-size").value = fontSize;
       document.getElementById("align-left").classList.toggle('active', align === 'left');
@@ -50,33 +50,67 @@
 
     async function handlePostSubmit(event) {
       event.preventDefault();
-      const title = document.getElementById("post-title").value;
-      const editor = document.getElementById("post-content-editor");
-      const content = editor.innerHTML;
-      const fontSize = document.getElementById("font-size").value;
-      const align = currentAlign;
-      const image = document.getElementById("image-preview").src || '';
-      if (!title || !content.replace(/<[^>]*>/g, '').trim()) {
-        alert("제목과 내용을 모두 입력해주세요!");
-        return;
+      console.log('게시물 저장 시작...');
+      
+      try {
+        const title = document.getElementById("post-title").value;
+        const editor = document.getElementById("post-content-editor");
+        const content = editor.innerHTML;
+        const fontSize = document.getElementById("font-size").value || '16';
+        const align = currentAlign;
+        const image = document.getElementById("image-preview") ? document.getElementById("image-preview").src || '' : '';
+        
+        console.log('제목:', title);
+        console.log('내용:', content);
+        console.log('글자크기:', fontSize);
+        
+        if (!title || !content.replace(/<[^>]*>/g, '').trim()) {
+          alert("제목과 내용을 모두 입력해주세요!");
+          return;
+        }
+        
+        const postData = { 
+          title, 
+          content, 
+          fontSize, 
+          align, 
+          image, 
+          private: false, 
+          owner: myUserId, 
+          created: new Date() 
+        };
+        
+        console.log('저장할 데이터:', postData);
+        
+        if (editId) {
+          console.log('기존 글 수정 중...');
+          await db.collection("posts").doc(editId).update(postData);
+          editId = null;
+          document.getElementById("submit-btn").textContent = "작성하기";
+          console.log('글 수정 완료');
+        } else {
+          console.log('새 글 저장 중...');
+          const docRef = await db.collection("posts").add(postData);
+          console.log('새 글 저장 완료, ID:', docRef.id);
+        }
+        
+        document.getElementById("post-form").reset();
+        setEditorContent();
+        alert('글이 저장되었습니다!');
+        window.location.href = 'index.html';
+        
+      } catch (error) {
+        console.error('저장 중 오류 발생:', error);
+        alert('저장 중 오류가 발생했습니다: ' + error.message);
       }
-      const postData = { title, content, fontSize, align, image, private: false, owner: myUserId, created: new Date() };
-      if (editId) {
-        await db.collection("posts").doc(editId).update(postData);
-        editId = null;
-        document.getElementById("submit-btn").textContent = "작성하기";
-      } else {
-        await db.collection("posts").add(postData);
-      }
-      document.getElementById("post-form").reset();
-      setEditorContent();
-      alert('글이 저장되었습니다!');
-      window.location.href = 'index.html';
     }
 
     function handleFontSizeChange() {
       const size = document.getElementById("font-size").value;
-      document.getElementById("post-content-editor").style.fontSize = size + 'px';
+      const editor = document.getElementById("post-content-editor");
+      if (size && editor) {
+        editor.style.fontSize = size + 'pt';
+      }
     }
     function handleAlignClick(align) {
       document.getElementById("post-content-editor").style.textAlign = align;
@@ -118,21 +152,23 @@
           const opt = document.createElement('option');
           opt.value = i;
           opt.textContent = i + 'pt';
+          if (i === 16) opt.selected = true; // 기본값 16pt 설정
           fontSizeSelect.appendChild(opt);
         }
+        // 기본 글자 크기 적용
+        const editor = document.getElementById("post-content-editor");
+        if (editor) {
+          editor.style.fontSize = '16pt';
+        }
       }
-      // 글자 크기 변경: 선택한 텍스트에만 적용 (자동 저장 안함)
+      // 글자 크기 변경: 전체 에디터에 적용
       if (fontSizeSelect) {
         fontSizeSelect.onchange = function() {
           const size = fontSizeSelect.value;
-          const sel = window.getSelection();
-          if (!sel.rangeCount) return;
-          const range = sel.getRangeAt(0);
-          if (range.collapsed) return;
-          const span = document.createElement('span');
-          span.style.fontSize = size + 'pt';
-          range.surroundContents(span);
-          // 저장 금지: 스타일만 적용
+          const editor = document.getElementById("post-content-editor");
+          if (size && editor) {
+            editor.style.fontSize = size + 'pt';
+          }
         };
       }
       // 색상 팔레트 버튼 이벤트 (자동 저장 안함)
@@ -178,11 +214,14 @@
       const form = document.getElementById('post-form');
       if (form) {
         form.addEventListener('submit', function(e) {
+          console.log('Form submit 이벤트 발생, submitter:', e.submitter);
           // submit은 버튼 클릭일 때만 허용
           if (!(e.submitter && (e.submitter.id === 'submit-btn'))) {
+            console.log('제출 버튼이 아닌 방식으로 submit 시도, 차단됨');
             e.preventDefault();
             return false;
           }
+          console.log('정상적인 버튼 클릭으로 제출 진행');
         });
       }
     });
@@ -271,6 +310,7 @@
       <hr style="width:100%;border:none;border-top:1.5px solid #ececec;margin:24px 0 0 0;">
       <div style="text-align:center;color:#b0b0b0;font-size:1.15em;margin:38px 0 0 0;">최근 다녀온 곳을 지도와 함께 기록해보세요!</div>
       <div id="post-content-editor" contenteditable="true" style="border:none;min-height:220px;padding:18px 0 8px 0;margin-bottom:8px;font-size:1.18em;text-align:left;background:transparent;outline:none;box-sizing:border-box;font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;line-height:1.7;"></div>
+      <img id="image-preview" style="display:none;max-width:100%;height:auto;margin:16px 0;border-radius:8px;" />
       <button type="submit" id="submit-btn" style="padding:8px 32px;font-size:1.1em;border-radius:16px;background:#223a5e;color:#fff;font-weight:500;border:none;margin:32px auto 0 auto;display:block;transition:background 0.15s, color 0.15s;">작성하기</button>
     </form>
   </main>
