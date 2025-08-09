@@ -152,23 +152,33 @@
           const opt = document.createElement('option');
           opt.value = i;
           opt.textContent = i + 'pt';
-          if (i === 16) opt.selected = true; // 기본값 16pt 설정
+          if (i === 14) opt.selected = true; // 기본값 14pt 설정
           fontSizeSelect.appendChild(opt);
         }
         // 기본 글자 크기 적용
         const editor = document.getElementById("post-content-editor");
         if (editor) {
-          editor.style.fontSize = '16pt';
+          editor.style.fontSize = '14pt';
         }
       }
-      // 글자 크기 변경: 전체 에디터에 적용
+      // 드래그한 부분만 글자 크기 변경
       if (fontSizeSelect) {
         fontSizeSelect.onchange = function() {
           const size = fontSizeSelect.value;
+          if (!size) return;
+          // 선택 영역에만 font-size 적용
+          document.execCommand('styleWithCSS', false, true);
+          document.execCommand('fontSize', false, 7); // 7은 임시(가장 큰 값)
+          // font[size="7"] 태그를 span으로 변환하며 실제 pt 적용
           const editor = document.getElementById("post-content-editor");
-          if (size && editor) {
-            editor.style.fontSize = size + 'pt';
-          }
+          if (!editor) return;
+          const fonts = editor.querySelectorAll('font[size="7"]');
+          fonts.forEach(font => {
+            const span = document.createElement('span');
+            span.style.fontSize = size + 'pt';
+            span.innerHTML = font.innerHTML;
+            font.parentNode.replaceChild(span, font);
+          });
         };
       }
       // 색상 팔레트 버튼 이벤트 (자동 저장 안함)
@@ -363,4 +373,4 @@
     <p>  &copy; 2025 YuKyeong's Blog</p>
   </footer>
 </body>
-</html> 
+</html>
