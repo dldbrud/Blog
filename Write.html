@@ -166,13 +166,12 @@
         fontSizeSelect.onchange = function() {
           const size = fontSizeSelect.value;
           if (!size) return;
-          // 선택 영역에만 font-size 적용
           document.execCommand('styleWithCSS', false, true);
-          document.execCommand('fontSize', false, 7); // 7은 임시(가장 큰 값)
-          // font[size="7"] 태그를 span으로 변환하며 실제 pt 적용
+          document.execCommand('fontSize', false, 1); // 임시로 1로 적용
+          // font[size="1"] 태그를 span으로 변환하며 실제 pt 적용
           const editor = document.getElementById("post-content-editor");
           if (!editor) return;
-          const fonts = editor.querySelectorAll('font[size="7"]');
+          const fonts = editor.querySelectorAll('font[size="1"]');
           fonts.forEach(font => {
             const span = document.createElement('span');
             span.style.fontSize = size + 'pt';

@@ -224,4 +224,11 @@ p, li {
     max-width: 95%;
     max-height: 400px;
   }
-} 
+}
+img, .about-box img, .card img {
+  max-width: 100%;
+  height: auto;
+  image-rendering: auto; /* 또는 image-rendering: high-quality; */
+  display: block;
+  border-radius: 18px !important;
+}
