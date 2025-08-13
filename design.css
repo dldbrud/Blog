@@ -180,7 +180,10 @@ p, li {
   min-height: 32px !important;
 }
 #editor-toolbar {
-  gap: 6px !important;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
 }
 .toolbar-btn, .align-btn, .img-btn {
   width: 32px !important;
