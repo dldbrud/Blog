@@ -166,18 +166,17 @@
         fontSizeSelect.onchange = function() {
           const size = fontSizeSelect.value;
           if (!size) return;
-          document.execCommand('styleWithCSS', false, true);
-          document.execCommand('fontSize', false, 1); // 임시로 1로 적용
-          // font[size="1"] 태그를 span으로 변환하며 실제 pt 적용
-          const editor = document.getElementById("post-content-editor");
-          if (!editor) return;
-          const fonts = editor.querySelectorAll('font[size="1"]');
-          fonts.forEach(font => {
-            const span = document.createElement('span');
-            span.style.fontSize = size + 'pt';
-            span.innerHTML = font.innerHTML;
-            font.parentNode.replaceChild(span, font);
-          });
+          // 선택 영역에만 font-size 인라인 스타일 적용
+          const selection = window.getSelection();
+          if (!selection.rangeCount) return;
+          const range = selection.getRangeAt(0);
+
+          // span 생성 및 스타일 적용
+          const span = document.createElement('span');
+          span.style.fontSize = size + 'pt';
+
+          // 선택한 내용을 span으로 감싸기
+          range.surroundContents(span);
         };
       }
       // 색상 팔레트 버튼 이벤트 (자동 저장 안함)
@@ -293,6 +292,7 @@
             <svg width="25" height="25"><rect x="3" y="7" width="19" height="3" fill="#333"/><rect x="9" y="12" width="13" height="3" fill="#333"/><rect x="15" y="17" width="7" height="3" fill="#333"/></svg>
           </span>
         </button>
+        <input type="file" id="image-upload" accept="image/*" style="display:none" onchange="handleImageUpload(event)" />
         <input type="file" id="image-upload" accept="image/*" style="display:none" onchange="handleImageUpload(event)" />
         <button type="button" class="toolbar-btn img-btn" onclick="document.getElementById('image-upload').click()" title="Attach Image" style="width:32px; height:32px; min-width:32px; min-height:32px; font-size:1em; padding:0;">
           <span style="width:25px;height:25px;display:inline-block;">
