@@ -34,7 +34,8 @@
         const post = doc.data();
         const idx = doc.id;
         const li = document.createElement("li");
-        if (!post.private || post.owner === myUserId) {
+        // 내가 쓴 글은 무조건 보이게, 그 외에는 공개글만 보이게
+        if (post.owner === myUserId || !post.private) {
           const a = document.createElement("a");
           a.href = `post.html?idx=${idx}`;
           a.innerHTML = post.private ? (post.owner === myUserId ? post.title + " (비공개)" : "비공개") : post.title;
